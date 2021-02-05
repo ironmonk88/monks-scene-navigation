@@ -10,6 +10,7 @@
         <ol id="scene-list" class="scene-list">
             {{#each scenes}}
             {{#if this.directory}}
+            {{#if this.visible}}
             <li class="folder nav-item {{this.css}}" data-folder-id="{{this._id}}">
                 <a class="scene-name folder-name" style="background-color: {{this.color}};">
                     <i class="fas {{#if this.navopen}}fa-folder-open{{else}}fa-folder{{/if}}"></i>
@@ -23,6 +24,7 @@
                 </ul>
                 {{/unless}}
             </li>
+            {{/if}}
             {{else}}
             <li class="scene nav-item {{this.css}}" data-scene-id="{{this._id}}">
                 <a class="scene-name">

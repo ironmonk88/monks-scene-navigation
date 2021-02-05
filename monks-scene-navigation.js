@@ -99,21 +99,24 @@ export default function initSceneNavigation() {
                                 data = duplicate(s.data);
                                 data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
                                 data.visible = game.user.isGM;
+                                data.navopen = s.getFlag("monks-scene-navigation", "navopen");
                                 data.css = [
-                                    s.data.navopen ? "expanded" : null, "gm"
+                                    s.getFlag("monks-scene-navigation", "navopen") ? "expanded" : null, "gm"
                                 ].filter(c => !!c).join(" ");
                                 data.directory = true;
                             } else {
                                 data._id = s.data._id;
-                                data.navopen = s.data.navopen;
+                                data.navopen = s.getFlag("monks-scene-navigation", "navopen") ;
                             }
 
                             mapScenes(data);
                             return data;
                         }
                     });
+                if (folder != undefined && !scenes.length)
+                    folder.visible = false;
 
-                if(folder == undefined || folder.navopen)
+                if((folder == undefined || folder.navopen) && scenes.length)
                     groups.push({ folder: folder?._id, scenes: scenes });
             }
             mapScenes();
@@ -159,9 +162,9 @@ export default function initSceneNavigation() {
             let folder = scenes.find(f => f.id == folderId);
 
             let updates = scenes.filter(f => {
-                return f instanceof Folder && f.data.parent == folder.data.parent && f.data.navopen && f._id != folder._id
-            }).map(f => { return { _id: f.id, navopen: false } });
-            updates.push({ _id: folder.id, navopen: !folder.data.navopen });
+                return f instanceof Folder && f.data.parent == folder.data.parent && f.getFlag("monks-scene-navigation", "navopen")  && f._id != folder._id
+            }).map(f => { return { _id: f.id, flags: { 'monks-scene-navigation': { navopen: false } } } });
+            updates.push({ _id: folder.id, flags: { 'monks-scene-navigation': { navopen: !folder.getFlag("monks-scene-navigation", "navopen") } } });
             Folder.update(updates);
             //folder.update({ navopen: !folder.data.navopen });
             //for (let item of prevopen) {
@@ -195,14 +198,39 @@ Hooks.on("init", () => {
     
         return options;
     }
+
+    let oldEntityClick = SceneDirectory.prototype._onClickEntityName;
+    SceneDirectory.prototype._onClickEntityName = function (event) {
+        event.preventDefault();
+        const entity = this.constructor.collection.get(event.currentTarget.parentElement.dataset.entityId);
+        if (entity instanceof Scene)
+            entity.view();
+        else
+            oldEntityClick.call(this, event);
+    };
 });
 
 Hooks.on("renderPermissionControl", (app, html, options) => {
     if (app.object instanceof Scene) {
         $('option[value="1"],option[value="2"]', html).remove();
         $('option[value="3"]', html).html('Observer');
-
     }
+});
+
+Hooks.on("renderSceneDirectory", (app, html, options) => {
+    //add scene indicators
+    $('li.scene', html).each(function () {
+        let id = this.dataset.entityId;
+        let scene = game.scenes.entities.find(s => { return s._id == id });
+        if (scene != undefined) {
+            //show active, if players can navigate
+            $('h3 a', this).attr('title', $('h3 a', this).html());
+            if (scene.data.permission.default > 0 || Object.keys(scene.data.permission).length > 1)
+                $('h3 a', this).prepend($('<i>').addClass('fas fa-compass'));
+            if (scene.active)
+                $('h3 a', this).prepend($('<i>').addClass('fas fa-bullseye'));
+        }
+    });
 });
 
 
