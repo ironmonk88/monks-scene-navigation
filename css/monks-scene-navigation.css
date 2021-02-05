@@ -1,46 +1,73 @@
-#navigation.monks-scene-navigation #scene-list {
+#navigation {
+    z-index: 30;
+}
+
+.monks-scene-navigation {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    border: none;
+    pointer-events: none;
+    flex: 0 0 40px;
+    height: 40px;
+    z-index:30;
+}
+
+.monks-scene-navigation + .monks-scene-navigation {
+    padding-left: 40px;
+    z-index: 29;
+}
+
+.monks-scene-navigation + .monks-scene-navigation + .monks-scene-navigation { z-index:28; }
+.monks-scene-navigation + .monks-scene-navigation + .monks-scene-navigation + .monks-scene-navigation { z-index:27; }
+.monks-scene-navigation + .monks-scene-navigation + .monks-scene-navigation + .monks-scene-navigation + .monks-scene-navigation { z-index:26; }
+
+#navigation .monks-scene-navigation .scene-list {
     display: flex;
     flex-direction: row;
 }
 
-#navigation.monks-scene-navigation #scene-list .scene,
-#navigation.monks-scene-navigation #scene-list .scene.gm {
-    background: transparent;
-    border: 0px;
+#navigation .monks-scene-navigation .scene-list > li {
+    background: transparent !important;
+    border: 0px !important;
     flex-grow: 1;
     flex-basis: 0;
     overflow: visible;
     max-width: 150px;
     display: list-item;
-    box-shadow: none;
+    box-shadow: none !important;
     margin: 0px;
-    margin-right:4px;
+    margin-right: 4px;
     padding: 0px;
     height: 40px;
     position: relative;
 }
 
-#navigation.monks-scene-navigation #scene-list .scene.view,
-#navigation.monks-scene-navigation #scene-list .scene:hover:not(:last-child) {
+#navigation .monks-scene-navigation .scene-list > li.view,
+#navigation .monks-scene-navigation .scene-list > li.expanded,
+#navigation .monks-scene-navigation .scene-list > li.pre-view,
+#navigation .monks-scene-navigation .scene-list > li:hover:not(:last-child) {
     flex: 0 0 150px;
     margin: 0px 4px 0px 0px;
     max-width: 150px;
 }
 
-#navigation.monks-scene-navigation #scene-list .scene:last-child{
+#navigation .monks-scene-navigation .scene-list > li:last-child {
     min-width: 150px;
-    margin-right:0px;
+    margin-right: 0px;
 }
-
-#navigation.monks-scene-navigation #scene-list .scene.view:not(:first-child) {
+/*
+#navigation .monks-scene-navigation .scene-list > li.view:not(:first-child) {
     margin: 0 4px 0px 45px;
-}
+}*/
 
-#navigation.monks-scene-navigation #scene-list .scene:hover + .scene.view {
+#navigation .monks-scene-navigation .scene-list > li:hover + .scene.view {
     margin: 0 4px 0px 0px;
 }
 
-#navigation.monks-scene-navigation #scene-list .scene a {
+#navigation .monks-scene-navigation .scene-list > li a {
     background: #130027;
     border: 1px solid #3a00ae;
     border-radius: 4px;
@@ -58,14 +85,22 @@
     left: 0px;
 }
 
-#navigation.monks-scene-navigation #scene-list .scene.active a {
+#navigation .monks-scene-navigation .scene-list > li.folder a{
+    background: #000000;
+}
+
+#navigation .monks-scene-navigation .scene-list > li.folder.expanded a {
+    height: 38px;
+}
+
+#navigation .monks-scene-navigation .scene-list > li.active a {
     background: rgba(60, 0, 120, 1);
     border: 1px solid #3b1893;
     box-shadow: 0 0 10px #9b8dff;
 }
 
-#navigation.monks-scene-navigation #scene-list .scene.view a,
-#navigation.monks-scene-navigation #scene-list .scene.context a {
+#navigation .monks-scene-navigation .scene-list > li.view a,
+#navigation .monks-scene-navigation .scene-list > li.context a {
     color: #FFF;
     border: 1px solid red;
     background: rgba(52, 52, 52, 0.95);
@@ -73,7 +108,26 @@
     box-shadow: 0 0 10px #ff6400;
 }
 
-#navigation.monks-scene-navigation #scene-list .scene ul.scene-players {
+#navigation .monks-scene-navigation .scene-list > li ul.scene-players {
     top: 26px;
     left: 5px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
+
+#navigation .monks-scene-navigation .scene-list > li li.scene-player {
+    float: left;
+    height: 14px;
+    width: 14px;
+    margin: 0 2px 0 0;
+    line-height: 12px;
+    font-size: 10px;
+    text-align: center;
+    color: #000;
+    font-weight: 700;
+    background: #97dff4;
+    border: 1px solid #000;
+    border-radius: 8px;
 }

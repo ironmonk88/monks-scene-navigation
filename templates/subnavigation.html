@@ -2,8 +2,8 @@
     <ol class="scene-list">
         {{#each scenes}}
         {{#if this.directory}}
-        <li class="scene nav-item {{this.css}}" data-folder-id="{{this.id}}" style="background-color: {{this.color}};">
-            <a class="scene-name folder-name">
+        <li class="folder nav-item {{this.css}}" data-folder-id="{{this.id}}">
+            <a class="scene-name folder-name" style="background-color: {{this.color}};">
                 <i class="fas {{#if this.expanded}}fa-folder-open{{else}}fa-folder{{/if}}"></i>
                 {{{this.name}}}
             </a>
