@@ -61,7 +61,7 @@ export default function initSceneNavigation() {
             });
             scenes.sort((a, b) => a.data.navOrder - b.data.navOrder);
 
-            return folders.concat(scenes);
+            return (game.settings.get("monks-scene-navigation", "folder-position") == "front" ? folders.concat(scenes) : scenes.concat(folders));
         }
 
         getData(options) {
@@ -77,6 +77,8 @@ export default function initSceneNavigation() {
                                 .map(u => { return { letter: u.name[0], color: u.data.color } });
                             if (folder && users.length)
                                 folder.users = (folder.users || []).concat(users);
+                            if (folder && s.active)
+                                folder.active = true;
 
                             if (folder == undefined || folder?.navopen) {
                                 if (folder && users.length)
@@ -116,8 +118,14 @@ export default function initSceneNavigation() {
                 if (folder != undefined && !scenes.length)
                     folder.visible = false;
 
-                if((folder == undefined || folder.navopen) && scenes.length)
-                    groups.push({ folder: folder?._id, scenes: scenes });
+                if ((folder == undefined || folder.navopen) && scenes.length) {
+                    let group = { folder: folder, scenes: scenes };
+                    /*
+                    group.css = [
+                        folder?.opening ? "opening" : null
+                    ].filter(c => !!c).join(" ");*/
+                    groups.push(group);
+                }
             }
             mapScenes();
 
@@ -143,11 +151,52 @@ export default function initSceneNavigation() {
             folders.click(this._onClickFolder.bind(this));
         }
 
+        /**
+     * Expand the SceneNavigation menu, sliding it down if it is currently collapsed
+     */
+        expand() {
+            if (!this._collapsed) return true;
+            const nav = this.element;
+            const icon = nav.find("#nav-toggle i.fas");
+            const ul = $(".monks-scene-navigation .scene-list", nav);
+            return new Promise(resolve => {
+                ul.slideDown(200, () => {
+                    nav.removeClass("collapsed");
+                    icon.removeClass("fa-caret-down").addClass("fa-caret-up");
+                    this._collapsed = false;
+                    Hooks.callAll("collapseSceneNavigation", this, this._collapsed);
+                    return resolve(true);
+                });
+            });
+        }
+
+        /* -------------------------------------------- */
+
+        /**
+         * Collapse the SceneNavigation menu, sliding it up if it is currently expanded
+         * @return {Promise<boolean>}
+         */
+        async collapse() {
+            if (this._collapsed) return true;
+            const nav = this.element;
+            const icon = nav.find("#nav-toggle i.fas");
+            const ul = $(".monks-scene-navigation .scene-list", nav);
+            return new Promise(resolve => {
+                ul.slideUp(200, () => {
+                    nav.addClass("collapsed");
+                    icon.removeClass("fa-caret-up").addClass("fa-caret-down");
+                    this._collapsed = true;
+                    Hooks.callAll("collapseSceneNavigation", this, this._collapsed);
+                    return resolve(true);
+                });
+            });
+        }
+
         _getContextMenuOptions() {
             let contextmenu = super._getContextMenuOptions();
             let menu = contextmenu.find(m => { return m.name == "SCENES.ToggleNav" });
             if (menu != undefined)
-                menu.name = "MONKSCENENAVIGATION.RemoveNav";
+                menu.name = "MonksSceneNavigation.RemoveNav";
 
             return contextmenu;
         }
@@ -158,20 +207,39 @@ export default function initSceneNavigation() {
 
             log('Click on a folder');
 
-            let scenes = this.scenes
+            let scenes = this.scenes;
             let folder = scenes.find(f => f.id == folderId);
 
             let updates = scenes.filter(f => {
                 return f instanceof Folder && f.data.parent == folder.data.parent && f.getFlag("monks-scene-navigation", "navopen")  && f._id != folder._id
-            }).map(f => { return { _id: f.id, flags: { 'monks-scene-navigation': { navopen: false } } } });
+            }).map(f => { delete f.data.opening; return { _id: f.id, flags: { 'monks-scene-navigation': { navopen: false } } } });
+            folder.data.opening = true;
             updates.push({ _id: folder.id, flags: { 'monks-scene-navigation': { navopen: !folder.getFlag("monks-scene-navigation", "navopen") } } });
             Folder.update(updates);
-            //folder.update({ navopen: !folder.data.navopen });
-            //for (let item of prevopen) {
-            //    item.update({ navopen: false });
-            //}
-            //this.render(true);
         }
+
+        /*
+        render(force, context = {}) {
+            super.render(force, context);
+            let app = this;
+
+            log('rendering', app);
+
+            let opening = $('.monks-scene-navigation.opening', app.element);
+            new Promise(resolve => {
+                $('.scene-list', opening).each(function () {
+                    let scenelist = this;
+                    $(scenelist).slideDown(200, () => {
+                        $(scenelist).parent().removeClass("opening");
+                        let folderId = scenelist.parentNode.dataset.folderId;
+                        let folder = ui.scenes.folders.find(f => { return f._id == folderId; });
+                        delete folder.data.opening;
+                        Hooks.callAll("expandSceneNavigationFolder", app, folder);
+                    });
+                });
+                return resolve(true);
+            });
+        }*/
     }
 }
 
@@ -199,15 +267,17 @@ Hooks.on("init", () => {
         return options;
     }
 
-    let oldEntityClick = SceneDirectory.prototype._onClickEntityName;
-    SceneDirectory.prototype._onClickEntityName = function (event) {
-        event.preventDefault();
-        const entity = this.constructor.collection.get(event.currentTarget.parentElement.dataset.entityId);
-        if (entity instanceof Scene)
-            entity.view();
-        else
-            oldEntityClick.call(this, event);
-    };
+    if (game.settings.get("monks-scene-navigation", "click-to-view")) {
+        let oldEntityClick = SceneDirectory.prototype._onClickEntityName;
+        SceneDirectory.prototype._onClickEntityName = function (event) {
+            event.preventDefault();
+            const entity = this.constructor.collection.get(event.currentTarget.parentElement.dataset.entityId);
+            if (entity instanceof Scene)
+                entity.view();
+            else
+                oldEntityClick.call(this, event);
+        };
+    }
 });
 
 Hooks.on("renderPermissionControl", (app, html, options) => {
@@ -219,18 +289,20 @@ Hooks.on("renderPermissionControl", (app, html, options) => {
 
 Hooks.on("renderSceneDirectory", (app, html, options) => {
     //add scene indicators
-    $('li.scene', html).each(function () {
-        let id = this.dataset.entityId;
-        let scene = game.scenes.entities.find(s => { return s._id == id });
-        if (scene != undefined) {
-            //show active, if players can navigate
-            $('h3 a', this).attr('title', $('h3 a', this).html());
-            if (scene.data.permission.default > 0 || Object.keys(scene.data.permission).length > 1)
-                $('h3 a', this).prepend($('<i>').addClass('fas fa-compass'));
-            if (scene.active)
-                $('h3 a', this).prepend($('<i>').addClass('fas fa-bullseye'));
-        }
-    });
+    if (game.settings.get("monks-scene-navigation", "scene-indicator")) {
+        $('li.scene', html).each(function () {
+            let id = this.dataset.entityId;
+            let scene = game.scenes.entities.find(s => { return s._id == id });
+            if (scene != undefined) {
+                //show active, if players can navigate
+                $('h3 a', this).attr('title', $('h3 a', this).html());
+                if (scene.data.permission.default > 0 || Object.keys(scene.data.permission).length > 1)
+                    $('h3 a', this).prepend($('<i>').addClass('fas fa-compass'));
+                if (scene.active)
+                    $('h3 a', this).prepend($('<i>').addClass('fas fa-bullseye'));
+            }
+        });
+    }
 });
 
 

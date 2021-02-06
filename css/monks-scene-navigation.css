@@ -12,7 +12,8 @@
     pointer-events: none;
     flex: 0 0 40px;
     height: 40px;
-    z-index:30;
+    z-index: 30;
+    margin-bottom: 8px;
 }
 
 .monks-scene-navigation + .monks-scene-navigation {
@@ -27,11 +28,24 @@
 #navigation .monks-scene-navigation .scene-list {
     display: flex;
     flex-direction: row;
+    padding: 2px;
+    border-radius: 4px;
+    border: 1px solid #3a00ae;
+    margin: 0px;
+    margin-bottom: 2px;
+    list-style: none;
+    background-color: rgba(0, 0, 0, 0.6);
 }
-
+#navigation .monks-scene-navigation.opening .scene-list {
+    height: 0px;
+}
+/*
+#navigation .monks-scene-navigation + .monks-scene-navigation .scene-list {
+    background-color: #000;
+}*/
 #navigation .monks-scene-navigation .scene-list > li {
-    background: transparent !important;
-    border: 0px !important;
+    background: transparent;
+    border: 0px;
     flex-grow: 1;
     flex-basis: 0;
     overflow: visible;
@@ -67,6 +81,14 @@
     margin: 0 4px 0px 0px;
 }
 
+#navigation .monks-scene-navigation .scene-list > li.folder-header {
+    border-right: 1px solid #3a00ae;
+    line-height: 40px;
+    padding-left: 8px;
+    border-bottom-right-radius:0px;
+    border-top-right-radius:0px;
+}
+
 #navigation .monks-scene-navigation .scene-list > li a {
     background: #130027;
     border: 1px solid #3a00ae;
@@ -85,12 +107,17 @@
     left: 0px;
 }
 
-#navigation .monks-scene-navigation .scene-list > li.folder a{
-    background: #000000;
+#navigation .monks-scene-navigation .scene-list > li.folder a {
+    background: #111;
+    padding-top: 4px;
+    border-top:5px solid #000;
 }
 
 #navigation .monks-scene-navigation .scene-list > li.folder.expanded a {
-    height: 38px;
+    height: 46px;
+    border-bottom: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 #navigation .monks-scene-navigation .scene-list > li.active a {
@@ -130,6 +157,17 @@
     background: #97dff4;
     border: 1px solid #000;
     border-radius: 8px;
+}
+
+#navigation .monks-scene-navigation .scene-list > li li.active-indicator {
+    float: left;
+    height: 14px;
+    width: 14px;
+    margin: 1px 4px 0 0;
+    line-height: 12px;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
 }
 
 .sidebar-directory .directory-item.scene h3 a {
