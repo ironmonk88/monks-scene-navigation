@@ -1,4 +1,4 @@
-# Monks Scene Navigation
+# Monk's Scene Navigation
 Add-On Module for Foundry VTT
 An update to the standard Scene Navigation interface
 
