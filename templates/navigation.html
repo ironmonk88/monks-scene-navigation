@@ -1,4 +1,4 @@
-<div id="navigation" class="flexcol">
+<div id="navigation" class="flexcol {{cssClass}}">
     {{#each groups}}
     <nav class="app monks-scene-navigation flexrow{{#if collapsed}} collapsed{{/if}} {{this.css}}"  data-folder-id="{{this.folder._id}}">
         {{#unless folder}}{{#if scenes}}
