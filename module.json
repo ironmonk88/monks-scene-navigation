@@ -25,7 +25,7 @@
 	"packs": [],
 	"url": "https://github.com/ironmonk88/monks-scene-navigation",
 	"download": "https://github.com/ironmonk88/monks-scene-navigation/archive/1.0.6.zip",
-	"manifest": "https://github.com/ironmonk88/monks-little-details/releases/latest/download/module.json",
+	"manifest": "https://github.com/ironmonk88/monks-scene-navigation/releases/latest/download/module.json",
 	"minimumCoreVersion": "0.7.0",
 	"compatibleCoreVersion": "0.7.9"
 }
