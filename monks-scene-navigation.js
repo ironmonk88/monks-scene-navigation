@@ -202,6 +202,20 @@ export default function initSceneNavigation() {
             if (menu != undefined)
                 menu.name = "MonksSceneNavigation.RemoveNav";
 
+            contextmenu.push({
+                name: "Set View Position",
+                icon: '<i class="fas fa-crop-alt"></i>',
+                condition: li => game.user.isGM && game.scenes.get(li.data("sceneId")).data.active,
+                callback: li => {
+                    let scene = game.scenes.get(li.data("sceneId"));
+                    let x = parseInt(canvas.stage.pivot.x);
+                    let y = parseInt(canvas.stage.pivot.y);
+                    let scale = canvas.stage.scale.x;
+                    scene.update({initial: {x: x, y: y, scale: scale}});
+                    ui.notifications.info("Captured canvas position as initial view.")
+                }
+            });
+
             return contextmenu;
         }
 
