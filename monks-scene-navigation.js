@@ -140,9 +140,13 @@ export default function initSceneNavigation() {
             log('get data', allscenes, groups);
 
             // Return data for rendering
+            let color = game?.user?.data?.flags?.PF2e?.settings?.color || 'blue'; 
             return {
                 collapsed: this._collapsed,
-                cssClass: (setting('display-background') ? 'background' : ''),
+                cssClass: [
+                    setting('display-background') ? "background" : null,
+                    color
+                ].filter(c => c !== null).join(" "),
                 groups: groups
             }
         }

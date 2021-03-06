@@ -1,5 +1,9 @@
-#Version, 1.0.7
-Added option to right click on the scene to set the initial view.
+#Version, 1.0.8
+Added option to right click on the scene to set the initial view.  So at the end of your session it's easy to recod where you last were.
+
+Fixed issues with the styling if the player has changed the background style in PF2E to something other than the basic.
+
+Spanish language updates (thank you lozalojo)
 
 # Version, 1.0.6
 Added option to turn off the background
