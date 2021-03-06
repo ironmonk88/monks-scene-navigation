@@ -10,6 +10,8 @@
   "MonksSceneNavigation.scene-indicator.hint": "Añade iconos al objeto escena que muestran si está activa o si se le han cambiado los permisos",
   "MonksSceneNavigation.folder-position.name": "Posición de las carpetas de escenas",
   "MonksSceneNavigation.folder-position.hint": "Pone la carpeta de escenas al inicio o al final de la lista",
+  "MonksSceneNavigation.display-background.name": "Mostrar marco de fondo",
+  "MonksSceneNavigation.display-background.hint": "Mostrar marco semitransparente bajo los botones de las escenas",
 
   "MonksSceneNavigation.folder-position.front": "Principio",
   "MonksSceneNavigation.folder-position.back": "Final"
