@@ -1,6 +1,6 @@
 {
 	"name": "monks-scene-navigation",
-	"title": "Monks Scene Navigation",
+	"title": "Monk's Scene Navigation",
 	"description": "Tidy up the scene navigation and let it respect the folder structure",
 	"version": "1.0.8",
 	"author": "IronMonk, ironmonk88#4075",
