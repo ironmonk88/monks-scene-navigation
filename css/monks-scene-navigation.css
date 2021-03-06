@@ -30,11 +30,13 @@
     flex-direction: row;
     padding: 2px;
     border-radius: 4px;
-    border: 1px solid #3a00ae;
     margin: 0px;
     margin-bottom: 2px;
     list-style: none;
-    background-color: rgba(0, 0, 0, 0.6);
+}
+#navigation.background .monks-scene-navigation .scene-list {
+    border: 1px solid #3a00ae;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 #navigation .monks-scene-navigation.opening .scene-list {
     height: 0px;
@@ -115,6 +117,9 @@
 
 #navigation .monks-scene-navigation .scene-list > li.folder.expanded a {
     height: 46px;
+}
+
+#navigation.background .monks-scene-navigation .scene-list > li.folder.expanded a {
     border-bottom: 0px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;

@@ -1,6 +1,6 @@
 export const registerSettings = function () {
-    // Register any custom module settings here
-    let modulename = "monks-scene-navigation";
+	// Register any custom module settings here
+	let modulename = "monks-scene-navigation";
 	
 	game.settings.register(modulename, "click-to-view", {
 		name: game.i18n.localize("MonksSceneNavigation.click-to-view.name"),
@@ -29,5 +29,16 @@ export const registerSettings = function () {
 			'back': game.i18n.localize("MonksSceneNavigation.folder-position.back"),
 		},
 		type: String
+	});
+	game.settings.register(modulename, "display-background", {
+		name: game.i18n.localize("MonksSceneNavigation.display-background.name"),
+		hint: game.i18n.localize("MonksSceneNavigation.display-background.hint"),
+		scope: "world",
+		config: true,
+		default: true,
+		type: Boolean,
+		onChange: () => {
+			location.reload();
+		}
 	});
 };

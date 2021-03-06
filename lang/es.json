@@ -1,0 +1,16 @@
+{
+  "I18N.LANGUAGE": "Español",
+  "I18N.MAINTAINERS": "@Viriato139ac#0342",
+  
+  "MonksSceneNavigation.RemoveNav": "Remove Navigation",
+
+  "MonksSceneNavigation.click-to-view.name": "Clic para mostrar",
+  "MonksSceneNavigation.click-to-view.hint": "Al hacer clic se navega a la escena en lugar de entrar en la configuración",
+  "MonksSceneNavigation.scene-indicator.name": "Iconos de escena",
+  "MonksSceneNavigation.scene-indicator.hint": "Añade iconos al objeto escena que muestran si está activa o si se le han cambiado los permisos",
+  "MonksSceneNavigation.folder-position.name": "Posición de las carpetas de escenas",
+  "MonksSceneNavigation.folder-position.hint": "Pone la carpeta de escenas al inicio o al final de la lista",
+
+  "MonksSceneNavigation.folder-position.front": "Principio",
+  "MonksSceneNavigation.folder-position.back": "Final"
+}

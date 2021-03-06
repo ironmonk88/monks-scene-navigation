@@ -12,6 +12,9 @@ export let error = (...args) => console.error("monks-scene-navigation | ", ...ar
 export let i18n = key => {
     return game.i18n.localize(key);
 };
+export let setting = key => {
+    return game.settings.get("monks-scene-navigation", key);
+};
 
 Hooks.once('init', async function () {
     log('Initializing Monks Scene Navigation');
@@ -139,6 +142,7 @@ export default function initSceneNavigation() {
             // Return data for rendering
             return {
                 collapsed: this._collapsed,
+                cssClass: (setting('display-background') ? 'background' : ''),
                 groups: groups
             }
         }
