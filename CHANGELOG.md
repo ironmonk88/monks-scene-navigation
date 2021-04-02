@@ -1,3 +1,8 @@
+#Version 1.0.9
+Fixed issue with nested directories not closing properly.
+
+Fixed issue with users and activity not populating up the folder chain
+
 #Version, 1.0.8
 Added option to right click on the scene to set the initial view.  So at the end of your session it's easy to recod where you last were.
 

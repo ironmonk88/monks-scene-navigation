@@ -90,8 +90,12 @@
     border-right: 1px solid #3a00ae;
     line-height: 40px;
     padding-left: 8px;
-    border-bottom-right-radius:0px;
-    border-top-right-radius:0px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 4px;
 }
 
 #navigation.ui .monks-scene-navigation .scene-list > li.folder-header {
@@ -215,3 +219,39 @@
     margin-right:4px;
 }
 
+.sidebar-directory .directory-item.scene h3 .permissions {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    font-size: 10px;
+    height: 20px;
+    padding: 2px 4px;
+    border-bottom-right-radius: 4px;
+    line-height: 14px;
+}
+
+.sidebar-directory .directory-item.scene h3 .permissions i{
+    font-size:13px;
+}
+
+.sidebar-directory .directory-item.scene h3 .permissions:empty {
+    display: none;
+}
+
+.sidebar-directory .directory-item.scene h3 .permissions div {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 100%;
+    text-align: center;
+    color: #000;
+    font-weight: 700;
+    background: #97dff4;
+    border: 1px solid #000;
+}
+
+.sidebar-directory .directory-item.scene h3 .permissions i + div,
+.sidebar-directory .directory-item.scene h3 .permissions i + i {
+    margin-left: 5px;
+}

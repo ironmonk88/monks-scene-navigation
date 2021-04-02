@@ -29,7 +29,7 @@ Hooks.on("renderSceneNavigation", (app, html, data) => {
 });
 
 Hooks.on("renderMonksSceneNavigation", (app, html, data) => {
-    $('.scene.view, .folder.expanded', html).prev().addClass('pre-view');
+    //$('.scene.view, .folder.expanded', html).prev().addClass('pre-view');
     log('render monks scene navigation', data);
 });
 
@@ -59,6 +59,7 @@ export default function initSceneNavigation() {
                 folders.sort((a, b) => a.data.sort - b.data.sort - 1);
             }
 
+            //show the scene if the scene is active, or is currently being viewed, or can be navigated to
             let scenes = game.scenes.entities.filter(s => {
                 return ((s.data.navigation && s.visible) || s.active || s.isView); // || s.permission > 3
             });
@@ -70,72 +71,81 @@ export default function initSceneNavigation() {
         getData(options) {
             let groups = [];
             const allscenes = this.scenes;
+
             // Modify Scene data
             let mapScenes = function (folder) {
-                let scenes = allscenes.filter(s => { return (s.data.parent || s.data.folder) == folder?._id || !game.user.isGM })   //flatten the scenes if not the GM
-                    .map(s => {
-                        if (s instanceof Scene) {
-                            let users = game.users.entities
-                                .filter(u => u.active && (u.viewedScene === s._id))
-                                .map(u => { return { letter: u.name[0], color: u.data.color } });
-                            if (folder && users.length)
-                                folder.users = (folder.users || []).concat(users);
-                            if (folder && s.active)
-                                folder.active = true;
+                let scenes = allscenes.filter(s => { return (s.data.parent || s.data.folder) == folder?._id || !game.user.isGM });   //flatten the scenes if not the GM
+                scenes = scenes.map(s => {
+                    if (s instanceof Scene) {
+                        let users = game.users.entities
+                            .filter(u => u.active && (u.viewedScene === s._id))
+                            .map(u => { return { letter: u.name[0], color: u.data.color } });
+                        if (folder && users.length)
+                            folder.users = (folder.users || []).concat(users);
+                        if (folder && s.active)
+                            folder.active = true;
 
-                            if (folder == undefined || folder?.navopen) {
-                                if (folder && users.length)
-                                    folder.users = (folder.users || []).concat(users);
-                                let data = duplicate(s.data);
-                                data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
-                                data.users = users;
-                                data.visible = (game.user.isGM || s.owner || s.active);
-                                data.css = [
-                                    s.isView ? "view" : null,
-                                    s.active ? "active" : null,
-                                    data.permission.default === 0 ? "gm" : null
-                                ].filter(c => !!c).join(" ");
-                                return data;
-                            } else
-                                return {};
-                        } else if(game.user.isGM) { //only tranverse the folders if it's the GM
-                            let data = {}
-                            if (folder == undefined || folder?.navopen) {
-                                data = duplicate(s.data);
-                                data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
-                                data.visible = game.user.isGM;
-                                data.navopen = s.getFlag("monks-scene-navigation", "navopen");
-                                data.css = [
-                                    s.getFlag("monks-scene-navigation", "navopen") ? "expanded" : null, "gm"
-                                ].filter(c => !!c).join(" ");
-                                data.directory = true;
-                            } else {
-                                data._id = s.data._id;
-                                data.navopen = s.getFlag("monks-scene-navigation", "navopen") ;
-                            }
-
-                            mapScenes(data);
+                        //if (folder == undefined || folder?.navopen) {
+                            //if (folder && users.length)
+                            //    folder.users = (folder.users || []).concat(users);
+                            let data = duplicate(s.data);
+                            data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
+                            data.users = users;
+                            data.visible = (game.user.isGM || s.owner || s.active);
+                            data.css = [
+                                s.isView ? "view" : null,
+                                s.active ? "active" : null,
+                                data.permission.default === 0 ? "gm" : null
+                            ].filter(c => !!c).join(" ");
                             return data;
-                        }
-                    });
-                if (folder != undefined && !scenes.length)
-                    folder.visible = false;
+                        //} else
+                        //    return {};
+                    } else if(game.user.isGM) { //only tranverse the folders if it's the GM
+                        let data = {}
+                        //if (folder == undefined || folder?.navopen) {
+                            data = duplicate(s.data);
+                            data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
+                            data.visible = game.user.isGM;
+                            data.navopen = s.getFlag("monks-scene-navigation", "navopen");
+                            data.css = [
+                                s.getFlag("monks-scene-navigation", "navopen") ? "expanded" : null, "gm"
+                            ].filter(c => !!c).join(" ");
+                            data.directory = true;
+                            data.scenes = mapScenes(data);
 
-                if ((folder == undefined || folder.navopen) && scenes.length) {
-                    let group = { folder: folder, scenes: scenes };
-                    /*
-                    group.css = [
-                        folder?.opening ? "opening" : null
-                    ].filter(c => !!c).join(" ");*/
-                    groups.push(group);
+                            data.visible = (game.user.isGM && data.scenes.length > 0);
+
+                            if (folder && data.users?.length)
+                                folder.users = (folder.users || []).concat(data.users);
+                            if (folder && data.active)
+                                folder.active = true;
+                        //} else {
+                        //    data._id = s.data._id;
+                        //    data.navopen = s.getFlag("monks-scene-navigation", "navopen") ;
+                        //}
+
+                        return data;
+                    }
+                });
+
+                return scenes;
+            }
+
+            let makeGroup = function (parent) {
+                let group = { folder: parent };
+                groups.push(group);
+
+                let folder = parent.scenes.find(s => s.directory && s.navopen && s.visible);
+                if (folder) {
+                    makeGroup(folder);
                 }
             }
-            mapScenes();
+
+            let scenes = mapScenes();
+            makeGroup({ scenes: scenes });
 
             if (groups.length == 0)
                 groups = [{}];
-            else
-                groups.reverse();
 
             log('get data', allscenes, groups);
 
@@ -285,6 +295,22 @@ Hooks.on("init", () => {
             };
             options.splice(idx + 1, 0, permission);
         }
+        /*
+        let opt = options.find(o => o.name === "SCENES.ToggleNav");
+        if (opt != undefined) {
+            let oldcondition = opt.condition;
+            opt.condition = (li) => {
+                let result = true;
+                if (oldcondition != undefined)
+                    result = oldcondition.call(this, li);
+
+                const scene = game.scenes.get(li.data("entityId"));
+                if (result)
+                    li.name = (scene.data.navigation ? "MonksSceneNavigation.RemoveNav" : "SCENES.ToggleNav");
+
+                return result;
+            }
+        }*/
     
         return options;
     }
@@ -318,13 +344,34 @@ Hooks.on("renderSceneDirectory", (app, html, options) => {
             if (scene != undefined) {
                 //show active, if players can navigate
                 $('h3 a', this).attr('title', $('h3 a', this).html());
-                if (scene.data.permission.default > 0 || Object.keys(scene.data.permission).length > 1)
-                    $('h3 a', this).prepend($('<i>').addClass('fas fa-compass'));
                 if (scene.active)
                     $('h3 a', this).prepend($('<i>').addClass('fas fa-bullseye'));
+
+                if (scene.data.navigation || scene.data.permission.default > 0 || Object.keys(scene.data.permission).length > 1) {
+                    let permissions = $('<div>').addClass('permissions');
+                    if (scene.data.navigation)
+                        permissions.append($('<i>').addClass('fas fa-compass').attr('title', 'Navigatable'));
+                    if (scene.data.permission.default > 0)
+                        permissions.append($('<i>').addClass('fas fa-users').attr('title', 'Everyone'));
+                    else {
+                        for (let key of Object.keys(scene.data.permission)) {
+                            let user = game.users.find(u => {
+                                return u.id == key && !u.isGM;
+                            });
+                            if(user != undefined)
+                                permissions.append($('<div>').css({ backgroundColor: user.data.color }).html(user.name[0]).attr('title', user.name));
+                        }
+                    }
+                    $('h3', this).append(permissions);
+                }
             }
         });
     }
+});
+
+Hooks.on("updateScene", (scene, data, options, userid) => {
+    if (data.navigation != undefined)
+        ui.scenes.render();
 });
 
 
