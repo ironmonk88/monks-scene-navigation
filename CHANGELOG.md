@@ -1,3 +1,8 @@
+#Version 1.0.10
+Allowing players to view the directory structure if the GM so chooses.
+
+Fixed an issue where a player was showing us as having access to the scene, even though they were set to have no access.
+
 #Version 1.0.9
 Fixed issue with nested directories not closing properly.
 

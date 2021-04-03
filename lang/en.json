@@ -9,6 +9,8 @@
   "MonksSceneNavigation.folder-position.hint": "Put the Scene folder at the start of the list, or at the back",
   "MonksSceneNavigation.display-background.name": "Display background",
   "MonksSceneNavigation.display-background.hint": "Display a background behind the scene buttons",
+  "MonksSceneNavigation.player-folders.name": "Show folders for players",
+  "MonksSceneNavigation.player-folders.hint": "Usually the number of scenes are small for the player so it's displayed without the folder structure.  Check this if you'd like the players to see the folder structure.",
 
   "MonksSceneNavigation.folder-position.front": "Front",
   "MonksSceneNavigation.folder-position.back": "Back"

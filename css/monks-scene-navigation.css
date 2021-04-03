@@ -14,6 +14,12 @@
     height: 40px;
     z-index: 30;
     margin-bottom: 8px;
+    display:none;
+}
+
+.monks-scene-navigation:first-child,
+.monks-scene-navigation.expanded{
+    display: flex;
 }
 
 .monks-scene-navigation + .monks-scene-navigation {

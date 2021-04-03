@@ -52,7 +52,7 @@ export default function initSceneNavigation() {
 
         get scenes() {
             let folders = [];
-            if (game.user.isGM) {
+            if (game.user.isGM || setting("player-folders")) {
                 folders = ui.scenes.folders.filter(f => {
                     return true;
                 });
@@ -73,8 +73,10 @@ export default function initSceneNavigation() {
             const allscenes = this.scenes;
 
             // Modify Scene data
-            let mapScenes = function (folder) {
-                let scenes = allscenes.filter(s => { return (s.data.parent || s.data.folder) == folder?._id || !game.user.isGM });   //flatten the scenes if not the GM
+            let mapScenes = function (folder) { //flatten the scenes if not the GM
+                let scenes = allscenes.filter(s => {
+                    return (s.data.parent || s.data.folder) == folder?._id || (!game.user.isGM && !setting("player-folders"))
+                });   
                 scenes = scenes.map(s => {
                     if (s instanceof Scene) {
                         let users = game.users.entities
@@ -100,20 +102,21 @@ export default function initSceneNavigation() {
                             return data;
                         //} else
                         //    return {};
-                    } else if(game.user.isGM) { //only tranverse the folders if it's the GM
+                    } else if (game.user.isGM || setting("player-folders")) { //only tranverse the folders if it's the GM
                         let data = {}
                         //if (folder == undefined || folder?.navopen) {
                             data = duplicate(s.data);
                             data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
-                            data.visible = game.user.isGM;
-                            data.navopen = s.getFlag("monks-scene-navigation", "navopen");
+                            //data.visible = game.user.isGM;
+                        data.navopen = game.user.getFlag("monks-scene-navigation", "navopen" + data._id);
+                        log('folder check', data.navopen, data);
                             data.css = [
-                                s.getFlag("monks-scene-navigation", "navopen") ? "expanded" : null, "gm"
+                                data.navopen ? "expanded" : null, "gm"
                             ].filter(c => !!c).join(" ");
                             data.directory = true;
                             data.scenes = mapScenes(data);
 
-                            data.visible = (game.user.isGM && data.scenes.length > 0);
+                            data.visible = (data.scenes.length > 0); //(game.user.isGM && data.scenes.length > 0);
 
                             if (folder && data.users?.length)
                                 folder.users = (folder.users || []).concat(data.users);
@@ -237,17 +240,23 @@ export default function initSceneNavigation() {
             event.preventDefault();
             let folderId = event.currentTarget.dataset.folderId;
 
-            log('Click on a folder');
+            log('Click on a folder', folderId);
+            let navopen = game.user.getFlag("monks-scene-navigation", "navopen" + folderId) || false;
+            game.user.setFlag("monks-scene-navigation", "navopen" + folderId, !navopen).then(() => {
+                ui.nav.render();
+            });
 
+            /*
             let scenes = this.scenes;
             let folder = scenes.find(f => f.id == folderId);
 
             let updates = scenes.filter(f => {
-                return f instanceof Folder && f.data.parent == folder.data.parent && f.getFlag("monks-scene-navigation", "navopen")  && f._id != folder._id
+                return f instanceof Folder && f.data.parent == folder.data.parent && game.user.getFlag("monks-scene-navigation", "navopen" + f._id)  && f._id != folder._id
             }).map(f => { delete f.data.opening; return { _id: f.id, flags: { 'monks-scene-navigation': { navopen: false } } } });
             folder.data.opening = true;
             updates.push({ _id: folder.id, flags: { 'monks-scene-navigation': { navopen: !folder.getFlag("monks-scene-navigation", "navopen") } } });
             Folder.update(updates);
+            */
         }
 
         /*
@@ -354,11 +363,11 @@ Hooks.on("renderSceneDirectory", (app, html, options) => {
                     if (scene.data.permission.default > 0)
                         permissions.append($('<i>').addClass('fas fa-users').attr('title', 'Everyone'));
                     else {
-                        for (let key of Object.keys(scene.data.permission)) {
+                        for (let [key, value] of Object.entries(scene.data.permission)) {
                             let user = game.users.find(u => {
                                 return u.id == key && !u.isGM;
                             });
-                            if(user != undefined)
+                            if(user != undefined && value > 0)
                                 permissions.append($('<div>').css({ backgroundColor: user.data.color }).html(user.name[0]).attr('title', user.name));
                         }
                     }
