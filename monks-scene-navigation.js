@@ -116,7 +116,7 @@ export default function initSceneNavigation() {
                             data.directory = true;
                             data.scenes = mapScenes(data);
 
-                            data.visible = (data.scenes.length > 0); //(game.user.isGM && data.scenes.length > 0);
+                        data.visible = (data.scenes.find(s => { return !s.directory || s.visible }) != undefined); //(data.scenes.length > 0); //(game.user.isGM && data.scenes.length > 0);
 
                             if (folder && data.users?.length)
                                 folder.users = (folder.users || []).concat(data.users);
@@ -222,7 +222,7 @@ export default function initSceneNavigation() {
             contextmenu.push({
                 name: "Set View Position",
                 icon: '<i class="fas fa-crop-alt"></i>',
-                condition: li => game.user.isGM && game.scenes.get(li.data("sceneId")).data.active,
+                condition: li => game.user.isGM && game.scenes.get(li.data("sceneId"))._view,
                 callback: li => {
                     let scene = game.scenes.get(li.data("sceneId"));
                     let x = parseInt(canvas.stage.pivot.x);
