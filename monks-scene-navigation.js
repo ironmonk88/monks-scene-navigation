@@ -242,9 +242,30 @@ export default function initSceneNavigation() {
 
             log('Click on a folder', folderId);
             let navopen = game.user.getFlag("monks-scene-navigation", "navopen" + folderId) || false;
-            game.user.setFlag("monks-scene-navigation", "navopen" + folderId, !navopen).then(() => {
+
+            let updates = {};
+            updates["navopen" + folderId] = !navopen;
+
+            let scenes = this.scenes;
+            let folder = scenes.find(f => f.id == folderId);
+
+            let openfolder = scenes.filter(f => {
+                return f instanceof Folder && game.user.getFlag("monks-scene-navigation", "navopen" + f.id) && f.id != folderId && f.data.parent == folder.data.parent;
+            });
+            if (openfolder.length != 0) {
+                for (let fldr of openfolder) {
+                    updates["navopen" + fldr._id] = false;
+                }
+            }
+
+            game.user.update({ flags: {'monks-scene-navigation': updates}}).then(() => {
                 ui.nav.render();
             });
+
+            /*
+            game.user.setFlag("monks-scene-navigation", "navopen" + folderId, !navopen).then(() => {
+                ui.nav.render();
+            });*/
 
             /*
             let scenes = this.scenes;

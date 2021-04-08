@@ -1,3 +1,6 @@
+#Version 1.0.11
+Fixed issue with folders on the same level not closing a sibling
+
 #Version 1.0.10
 Allowing players to view the directory structure if the GM so chooses.
 
