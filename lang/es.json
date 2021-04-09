@@ -12,6 +12,8 @@
   "MonksSceneNavigation.folder-position.hint": "Pone la carpeta de escenas al inicio o al final de la lista",
   "MonksSceneNavigation.display-background.name": "Mostrar marco de fondo",
   "MonksSceneNavigation.display-background.hint": "Mostrar marco semitransparente bajo los botones de las escenas",
+  "MonksSceneNavigation.player-folders.name": "Mostrar directorios a los jugadores",
+  "MonksSceneNavigation.player-folders.hint": "Como normalmente a los jugadores solo se les da acceso a un puñado de escenas a la vez, no tiene demasiado sentido que se les muestre la estructura de directorios, pero si marca esta opción se les mostrará en cualquier caso, independientemente de las escenas que puedan ver los jugadores",
 
   "MonksSceneNavigation.folder-position.front": "Principio",
   "MonksSceneNavigation.folder-position.back": "Final"
