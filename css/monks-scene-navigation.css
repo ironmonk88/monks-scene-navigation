@@ -14,6 +14,12 @@
     height: 40px;
     z-index: 30;
     margin-bottom: 8px;
+    display:none;
+}
+
+.monks-scene-navigation:first-child,
+.monks-scene-navigation.expanded{
+    display: flex;
 }
 
 .monks-scene-navigation + .monks-scene-navigation {
@@ -37,6 +43,9 @@
 #navigation.background .monks-scene-navigation .scene-list {
     border: 1px solid #3a00ae;
     background-color: rgba(0, 0, 0, 0.5);
+}
+#navigation.background.ui .monks-scene-navigation .scene-list {
+    border-color: var(--tertiary);
 }
 #navigation .monks-scene-navigation.opening .scene-list {
     height: 0px;
@@ -87,8 +96,16 @@
     border-right: 1px solid #3a00ae;
     line-height: 40px;
     padding-left: 8px;
-    border-bottom-right-radius:0px;
-    border-top-right-radius:0px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 4px;
+}
+
+#navigation.ui .monks-scene-navigation .scene-list > li.folder-header {
+    border-right-color: var(--tertiary);
 }
 
 #navigation .monks-scene-navigation .scene-list > li a {
@@ -107,6 +124,12 @@
     position: absolute;
     top: 0px;
     left: 0px;
+}
+
+#navigation.ui .monks-scene-navigation .scene-list > li a {
+    background: rgba(52, 52, 52, 0.95);
+    border: 1px solid #493c31;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.5),inset 0 0 0 2px hsla(0,0%,100%,.2),inset 0 0 0 3px hsla(0,0%,100%,.1);
 }
 
 #navigation .monks-scene-navigation .scene-list > li.folder a {
@@ -131,6 +154,12 @@
     box-shadow: 0 0 10px #9b8dff;
 }
 
+#navigation.ui .monks-scene-navigation .scene-list > li.active a {
+    background-color: var(--alt-dark);
+    border: 1px solid #493c31;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.5),inset 0 0 0 2px hsla(0,0%,100%,.2),inset 0 0 0 3px hsla(0,0%,100%,.1);
+}
+
 #navigation .monks-scene-navigation .scene-list > li.view a,
 #navigation .monks-scene-navigation .scene-list > li.context a {
     color: #FFF;
@@ -138,6 +167,17 @@
     background: rgba(52, 52, 52, 0.95);
     border-bottom: 1px solid #ff6400;
     box-shadow: 0 0 10px #ff6400;
+}
+
+#navigation.ui .monks-scene-navigation .scene-list > li.view a,
+#navigation.ui .monks-scene-navigation .scene-list > li.context a {
+    background-color: var(--alt);
+    padding-top: 0px;
+    border-style: solid;
+    border-image-outset: 0;
+    border-width: 9px;
+    border-image: url(../../../systems/pf2e/assets/sheet/corner-box.png) 9 repeat;
+    box-shadow: none;
 }
 
 #navigation .monks-scene-navigation .scene-list > li ul.scene-players {
@@ -185,3 +225,39 @@
     margin-right:4px;
 }
 
+.sidebar-directory .directory-item.scene h3 .permissions {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    font-size: 10px;
+    height: 20px;
+    padding: 2px 4px;
+    border-bottom-right-radius: 4px;
+    line-height: 14px;
+}
+
+.sidebar-directory .directory-item.scene h3 .permissions i{
+    font-size:13px;
+}
+
+.sidebar-directory .directory-item.scene h3 .permissions:empty {
+    display: none;
+}
+
+.sidebar-directory .directory-item.scene h3 .permissions div {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 100%;
+    text-align: center;
+    color: #000;
+    font-weight: 700;
+    background: #97dff4;
+    border: 1px solid #000;
+}
+
+.sidebar-directory .directory-item.scene h3 .permissions i + div,
+.sidebar-directory .directory-item.scene h3 .permissions i + i {
+    margin-left: 5px;
+}

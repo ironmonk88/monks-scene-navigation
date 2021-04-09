@@ -30,6 +30,14 @@ export const registerSettings = function () {
 		},
 		type: String
 	});
+	game.settings.register(modulename, "player-folders", {
+		name: game.i18n.localize("MonksSceneNavigation.player-folders.name"),
+		hint: game.i18n.localize("MonksSceneNavigation.player-folders.hint"),
+		scope: "world",
+		config: true,
+		default: false,
+		type: Boolean,
+	});
 	game.settings.register(modulename, "display-background", {
 		name: game.i18n.localize("MonksSceneNavigation.display-background.name"),
 		hint: game.i18n.localize("MonksSceneNavigation.display-background.hint"),
