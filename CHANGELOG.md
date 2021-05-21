@@ -1,3 +1,8 @@
+# Version 1.0.12
+Fixing some styling to make the icons show a little better.
+
+Fixed an issue when a whole lot of players are added, the badges extend off the scene button.
+
 # Version 1.0.11
 Fixed issue with folders on the same level not closing a sibling
 

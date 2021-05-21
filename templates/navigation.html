@@ -1,6 +1,6 @@
 <div id="navigation" class="flexcol {{cssClass}}">
     {{#each groups}}
-    <nav class="app monks-scene-navigation flexrow{{#if collapsed}} collapsed{{/if}} {{this.folder.css}}" data-folder-id="{{this.folder._id}}">
+    <nav class="app monks-scene-navigation flexrow {{this.folder.css}}" data-folder-id="{{this.folder._id}}">
         {{#unless folder._id}}
         <a id="nav-toggle" class="nav-item">
             <i class="fas fa-caret-{{#if collapsed}}down{{else}}up{{/if}}"></i>
@@ -23,12 +23,12 @@
                    {{this.name}}
                 </a>
                 {{#unless this.navopen}}
-                <ul class="scene-players">
+                <ul class="scene-players flexrow">
                     {{#if this.active}}
                     <li class="active-indicator"><i class="fas fa-bullseye"></i></li>
                     {{/if}}
                     {{#each this.users as |user i|}}
-                    <li class="scene-player" style="background-color: {{user.color}};">{{user.letter}}</li>
+                    <li class="scene-player"><div style="background-color: {{user.color}};">{{user.letter}}</div></li>
                     {{/each}}
                 </ul>
                 {{/unless}}
@@ -39,12 +39,12 @@
                 <a class="scene-name">
                     {{this.name}}
                 </a>
-                <ul class="scene-players">
+                <ul class="scene-players flexrow">
                     {{#if this.active}}
                     <li class="active-indicator"><i class="fas fa-bullseye"></i></li>
                     {{/if}}
                     {{#each this.users as |user i|}}
-                    <li class="scene-player" style="background-color: {{user.color}};">{{user.letter}}</li>
+                    <li class="scene-player"><div style="background-color: {{user.color}};">{{user.letter}}</div></li>
                     {{/each}}
                 </ul>
             </li>

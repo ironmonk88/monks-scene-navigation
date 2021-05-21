@@ -32,7 +32,7 @@
 .monks-scene-navigation + .monks-scene-navigation + .monks-scene-navigation + .monks-scene-navigation + .monks-scene-navigation { z-index:26; }
 
 #navigation .monks-scene-navigation .scene-list {
-    display: flex;
+    display: flex !important;
     flex-direction: row;
     padding: 2px;
     border-radius: 4px;
@@ -46,6 +46,9 @@
 }
 #navigation.background.ui .monks-scene-navigation .scene-list {
     border-color: var(--tertiary);
+}
+#navigation.background.collapsed .monks-scene-navigation .scene-list{
+    display:none !important;
 }
 #navigation .monks-scene-navigation.opening .scene-list {
     height: 0px;
@@ -187,13 +190,24 @@
     margin: 0;
     padding: 0;
     position: absolute;
+    flex-wrap: nowrap;
+    width: 145px;
 }
 
 #navigation .monks-scene-navigation .scene-list > li li.scene-player {
     float: left;
     height: 14px;
-    width: 14px;
+    max-width: 14px;
     margin: 0 2px 0 0;
+    position: relative;
+}
+
+#navigation .monks-scene-navigation .scene-list > li li.scene-player:last-child{
+    min-width:14px;
+}
+
+#navigation .monks-scene-navigation .scene-list > li li.scene-player > div {
+    width: 14px;
     line-height: 12px;
     font-size: 10px;
     text-align: center;
@@ -202,12 +216,17 @@
     background: #97dff4;
     border: 1px solid #000;
     border-radius: 8px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 #navigation .monks-scene-navigation .scene-list > li li.active-indicator {
     float: left;
     height: 14px;
     width: 14px;
+    flex: 0 0 14px;
+    max-width: 14px;
     margin: 1px 4px 0 0;
     line-height: 12px;
     font-size: 12px;
@@ -237,8 +256,9 @@
     line-height: 14px;
 }
 
-.sidebar-directory .directory-item.scene h3 .permissions i{
-    font-size:13px;
+.sidebar-directory .directory-item.scene h3 .permissions i {
+    font-size: 13px;
+    text-shadow: 1px 1px 3px #000;
 }
 
 .sidebar-directory .directory-item.scene h3 .permissions:empty {
@@ -255,6 +275,8 @@
     font-weight: 700;
     background: #97dff4;
     border: 1px solid #000;
+    margin-right: 2px;
+    text-shadow: none;
 }
 
 .sidebar-directory .directory-item.scene h3 .permissions i + div,

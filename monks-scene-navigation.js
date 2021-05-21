@@ -158,7 +158,8 @@ export default function initSceneNavigation() {
                 collapsed: this._collapsed,
                 cssClass: [
                     setting('display-background') ? "background" : null,
-                    color
+                    color,
+                    (this._collapsed ? 'collapsed' : null)
                 ].filter(c => c !== null).join(" "),
                 groups: groups
             }
@@ -180,9 +181,9 @@ export default function initSceneNavigation() {
             const nav = this.element;
             const icon = nav.find("#nav-toggle i.fas");
             const ul = $(".monks-scene-navigation .scene-list", nav);
+            nav.removeClass("collapsed");
             return new Promise(resolve => {
                 ul.slideDown(200, () => {
-                    nav.removeClass("collapsed");
                     icon.removeClass("fa-caret-down").addClass("fa-caret-up");
                     this._collapsed = false;
                     Hooks.callAll("collapseSceneNavigation", this, this._collapsed);
