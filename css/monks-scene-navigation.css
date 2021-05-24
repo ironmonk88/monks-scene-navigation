@@ -234,17 +234,17 @@
     color: #fff;
 }
 
-.sidebar-directory .directory-item.scene h3 a {
+.sidebar-tab.directory .directory-item.scene h3 a {
     background-color: rgba(0, 0, 0, 0.5);
     padding: 5px 10px;
     border-radius: 4px;
 }
 
-.sidebar-directory .directory-item.scene h3 a i{
-    margin-right:4px;
+.sidebar-tab.directory .directory-item.scene h3 a i {
+    margin-right: 4px;
 }
 
-.sidebar-directory .directory-item.scene h3 .permissions {
+.sidebar-tab.directory .directory-item.scene h3 .permissions {
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
     top: 0px;
@@ -256,16 +256,16 @@
     line-height: 14px;
 }
 
-.sidebar-directory .directory-item.scene h3 .permissions i {
+.sidebar-tab.directory .directory-item.scene h3 .permissions i {
     font-size: 13px;
     text-shadow: 1px 1px 3px #000;
 }
 
-.sidebar-directory .directory-item.scene h3 .permissions:empty {
+.sidebar-tab.directory .directory-item.scene h3 .permissions:empty {
     display: none;
 }
 
-.sidebar-directory .directory-item.scene h3 .permissions div {
+.sidebar-tab.directory .directory-item.scene h3 .permissions div {
     width: 16px;
     height: 16px;
     display: inline-block;
@@ -279,7 +279,7 @@
     text-shadow: none;
 }
 
-.sidebar-directory .directory-item.scene h3 .permissions i + div,
-.sidebar-directory .directory-item.scene h3 .permissions i + i {
+.sidebar-tab.directory .directory-item.scene h3 .permissions i + div,
+.sidebar-tab.directory .directory-item.scene h3 .permissions i + i {
     margin-left: 5px;
 }

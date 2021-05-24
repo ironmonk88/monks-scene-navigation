@@ -1,3 +1,6 @@
+# Version 1.0.14
+Updating to support 0.8.0
+
 # Version 1.0.12
 Fixing some styling to make the icons show a little better.
 

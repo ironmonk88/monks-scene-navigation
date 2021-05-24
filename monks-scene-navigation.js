@@ -60,7 +60,7 @@ export default function initSceneNavigation() {
             }
 
             //show the scene if the scene is active, or is currently being viewed, or can be navigated to
-            let scenes = game.scenes.entities.filter(s => {
+            let scenes = game.scenes.contents.filter(s => {
                 return ((s.data.navigation && s.visible) || s.active || s.isView); // || s.permission > 3
             });
             scenes.sort((a, b) => a.data.navOrder - b.data.navOrder);
@@ -79,8 +79,8 @@ export default function initSceneNavigation() {
                 });   
                 scenes = scenes.map(s => {
                     if (s instanceof Scene) {
-                        let users = game.users.entities
-                            .filter(u => u.active && (u.viewedScene === s._id))
+                        let users = game.users.contents
+                            .filter(u => u.active && (u.viewedScene === s.id))
                             .map(u => { return { letter: u.name[0], color: u.data.color } });
                         if (folder && users.length)
                             folder.users = (folder.users || []).concat(users);
@@ -93,7 +93,7 @@ export default function initSceneNavigation() {
                             let data = duplicate(s.data);
                             data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
                             data.users = users;
-                            data.visible = (game.user.isGM || s.owner || s.active);
+                            data.visible = (game.user.isGM || s.isOwner || s.active);
                             data.css = [
                                 s.isView ? "view" : null,
                                 s.active ? "active" : null,
@@ -371,7 +371,7 @@ Hooks.on("renderSceneDirectory", (app, html, options) => {
     if (game.settings.get("monks-scene-navigation", "scene-indicator")) {
         $('li.scene', html).each(function () {
             let id = this.dataset.entityId;
-            let scene = game.scenes.entities.find(s => { return s._id == id });
+            let scene = game.scenes.contents.find(s => { return s.id == id });
             if (scene != undefined) {
                 //show active, if players can navigate
                 $('h3 a', this).attr('title', $('h3 a', this).html());
