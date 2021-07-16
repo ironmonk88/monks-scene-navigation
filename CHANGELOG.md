@@ -1,3 +1,9 @@
+# Version 1.0.15
+
+Fixed issue where collapsing the scene navigation wouldn't hide the rows if the background is set to to show.
+
+Fixing issue with setting initial position.
+
 # Version 1.0.14
 Updating to support 0.8.0
 

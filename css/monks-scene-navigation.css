@@ -47,7 +47,7 @@
 #navigation.background.ui .monks-scene-navigation .scene-list {
     border-color: var(--tertiary);
 }
-#navigation.background.collapsed .monks-scene-navigation .scene-list{
+#navigation.collapsed .monks-scene-navigation .scene-list{
     display:none !important;
 }
 #navigation .monks-scene-navigation.opening .scene-list {
@@ -109,6 +109,10 @@
 
 #navigation.ui .monks-scene-navigation .scene-list > li.folder-header {
     border-right-color: var(--tertiary);
+}
+
+#navigation:not(.background) .monks-scene-navigation .scene-list > li.folder-header {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #navigation .monks-scene-navigation .scene-list > li a {

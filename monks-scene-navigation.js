@@ -229,7 +229,7 @@ export default function initSceneNavigation() {
                     let x = parseInt(canvas.stage.pivot.x);
                     let y = parseInt(canvas.stage.pivot.y);
                     let scale = canvas.stage.scale.x;
-                    scene.update({initial: {x: x, y: y, scale: scale}});
+                    scene.update({ initial: { x: x, y: y, scale: scale } }, { diff: false });
                     ui.notifications.info("Captured canvas position as initial view.")
                 }
             });
