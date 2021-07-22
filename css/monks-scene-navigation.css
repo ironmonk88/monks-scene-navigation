@@ -107,6 +107,14 @@
     padding-right: 4px;
 }
 
+#navigation:not(.background) .monks-scene-navigation .scene-list > li.folder-header {
+    border: 1px solid #3a00ae;
+    line-height: 32px;
+    height:32px;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
 #navigation.ui .monks-scene-navigation .scene-list > li.folder-header {
     border-right-color: var(--tertiary);
 }
@@ -147,6 +155,10 @@
 
 #navigation .monks-scene-navigation .scene-list > li.folder.expanded a {
     height: 46px;
+}
+
+#navigation:not(.background) .monks-scene-navigation .scene-list > li.folder.expanded a {
+    height: 38px;
 }
 
 #navigation.background .monks-scene-navigation .scene-list > li.folder.expanded a {

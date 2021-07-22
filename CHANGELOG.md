@@ -1,3 +1,11 @@
+# Version 1.0.16
+
+Fixed some styling issues when not showing the background.
+
+Added the option to not show the scene navigation modifications but keep the other changes to the side bar.
+
+Corrected the onChange in the settings to debounce properly.
+
 # Version 1.0.15
 
 Fixed issue where collapsing the scene navigation wouldn't hide the rows if the background is set to to show.

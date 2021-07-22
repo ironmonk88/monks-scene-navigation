@@ -11,6 +11,8 @@
   "MonksSceneNavigation.display-background.hint": "Display a background behind the scene buttons",
   "MonksSceneNavigation.player-folders.name": "Show folders for players",
   "MonksSceneNavigation.player-folders.hint": "Usually the number of scenes are small for the player so it's displayed without the folder structure.  Check this if you'd like the players to see the folder structure.",
+  "MonksSceneNavigation.modify-scene-bar.name": "Modify Scene Bar",
+  "MonksSceneNavigation.modify-scene-bar.hint": "Modify the Scene bar with Scene Navigation changes",
 
   "MonksSceneNavigation.folder-position.front": "Front",
   "MonksSceneNavigation.folder-position.back": "Back"

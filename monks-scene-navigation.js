@@ -20,8 +20,10 @@ Hooks.once('init', async function () {
     log('Initializing Monks Scene Navigation');
     registerSettings();
 
-    const msn = initSceneNavigation();
-    CONFIG.ui.nav = msn;
+    if (setting('modify-scene-bar')) {
+        const msn = initSceneNavigation();
+        CONFIG.ui.nav = msn;
+    }
 });
 
 Hooks.on("renderSceneNavigation", (app, html, data) => {
