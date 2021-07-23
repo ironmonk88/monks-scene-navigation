@@ -6,6 +6,8 @@ Added the option to not show the scene navigation modifications but keep the oth
 
 Corrected the onChange in the settings to debounce properly.
 
+Changed some styles so an open folder looks more "open"
+
 # Version 1.0.15
 
 Fixed issue where collapsing the scene navigation wouldn't hide the rows if the background is set to to show.
