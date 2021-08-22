@@ -52,9 +52,18 @@ export const registerSettings = function () {
 	game.settings.register(modulename, "display-background", {
 		name: game.i18n.localize("MonksSceneNavigation.display-background.name"),
 		hint: game.i18n.localize("MonksSceneNavigation.display-background.hint"),
-		scope: "world",
+		scope: "client",
 		config: true,
 		default: true,
+		type: Boolean,
+		onChange: debouncedReload
+	});
+	game.settings.register(modulename, "quick-navigation", {
+		name: game.i18n.localize("MonksSceneNavigation.quick-navigation.name"),
+		hint: game.i18n.localize("MonksSceneNavigation.quick-navigation.hint"),
+		scope: "world",
+		config: true,
+		default: false,
 		type: Boolean,
 		onChange: debouncedReload
 	});

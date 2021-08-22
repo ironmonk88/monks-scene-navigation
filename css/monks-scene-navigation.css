@@ -252,7 +252,7 @@
     color: #fff;
 }
 
-.sidebar-tab.directory .directory-item.scene h3 a {
+.sidebar-tab.directory .directory-item.scene h3 > a {
     background-color: rgba(0, 0, 0, 0.5);
     padding: 5px 10px;
     border-radius: 4px;
@@ -300,4 +300,8 @@
 .sidebar-tab.directory .directory-item.scene h3 .permissions i + div,
 .sidebar-tab.directory .directory-item.scene h3 .permissions i + i {
     margin-left: 5px;
+}
+
+.sidebar-tab.directory .directory-item.scene:not(.navigate) h3 .fa-compass {
+    color: #808080;
 }

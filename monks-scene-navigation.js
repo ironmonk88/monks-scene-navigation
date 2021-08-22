@@ -309,6 +309,14 @@ export default function initSceneNavigation() {
 }
 
 Hooks.on("init", () => {
+    SceneDirectory.prototype._toggleNavigation = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const scene = game.scenes.get(this.dataset.entityId);
+        scene.update({ navigation: !scene.data.navigation });
+    }
+
     let oldContext = SceneDirectory.prototype._getEntryContextOptions;
     SceneDirectory.prototype._getEntryContextOptions = function () {
         let options = oldContext.call(this);
@@ -349,15 +357,24 @@ Hooks.on("init", () => {
     }
 
     if (game.settings.get("monks-scene-navigation", "click-to-view")) {
-        let oldEntityClick = SceneDirectory.prototype._onClickEntityName;
-        SceneDirectory.prototype._onClickEntityName = function (event) {
+        let clickEntityName = function (wrapped, ...args) {
+            let event = args[0];
             event.preventDefault();
             const entity = this.constructor.collection.get(event.currentTarget.parentElement.dataset.entityId);
             if (entity instanceof Scene)
                 entity.view();
             else
-                oldEntityClick.call(this, event);
+                wrapped(...args);
         };
+
+        if (game.modules.get("lib-wrapper")?.active) {
+            libWrapper.register("monks-scene-navigation", "SceneDirectory.prototype._onClickEntityName", clickEntityName, "MIXED");
+        } else {
+            const oldClickSceneName = SceneDirectory.prototype._onClickEntityName;
+            SceneDirectory.prototype._onClickEntityName = function () {
+                return clickEntityName.call(this, oldClickSceneName.bind(this), ...arguments);
+            }
+        }
     }
 });
 
@@ -376,14 +393,19 @@ Hooks.on("renderSceneDirectory", (app, html, options) => {
             let scene = game.scenes.contents.find(s => { return s.id == id });
             if (scene != undefined) {
                 //show active, if players can navigate
+                $(this).toggleClass('navigate', scene.data.navigation);
                 $('h3 a', this).attr('title', $('h3 a', this).html());
                 if (scene.active)
                     $('h3 a', this).prepend($('<i>').addClass('fas fa-bullseye'));
 
-                if (scene.data.navigation || scene.data.permission.default > 0 || Object.keys(scene.data.permission).length > 1) {
+                if (scene.data.navigation || setting('quick-navigation') || scene.data.permission.default > 0 || Object.keys(scene.data.permission).length > 1) {
                     let permissions = $('<div>').addClass('permissions');
-                    if (scene.data.navigation)
-                        permissions.append($('<i>').addClass('fas fa-compass').attr('title', 'Navigatable'));
+                    if (scene.data.navigation || setting('quick-navigation')) {
+                        if (setting('quick-navigation'))
+                            permissions.append($('<a>').append($('<i>').addClass('fas fa-compass').attr('title', 'Navigatable')).click(app._toggleNavigation.bind(this)));
+                        else
+                            permissions.append($('<i>').addClass('fas fa-compass').attr('title', 'Navigatable'));
+                    }
                     if (scene.data.permission.default > 0)
                         permissions.append($('<i>').addClass('fas fa-users').attr('title', 'Everyone'));
                     else {

@@ -1,3 +1,13 @@
+# Version 1.0.17
+
+Added option to always show the compass icon, so you can toggle on and off navigation quickly.
+
+Added libWrapper support
+
+Changed the display background setting to be per player, rather than world based.
+
+Updated the spanish language translations, thank you lozalojo
+
 # Version 1.0.16
 
 Fixed some styling issues when not showing the background.
