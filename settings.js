@@ -67,4 +67,13 @@ export const registerSettings = function () {
 		type: Boolean,
 		onChange: debouncedReload
 	});
+	game.settings.register(modulename, "doubleclick-activate", {
+		name: game.i18n.localize("MonksSceneNavigation.doubleclick-activate.name"),
+		hint: game.i18n.localize("MonksSceneNavigation.doubleclick-activate.hint"),
+		scope: "world",
+		config: true,
+		default: true,
+		type: Boolean,
+		onChange: debouncedReload
+	});
 };

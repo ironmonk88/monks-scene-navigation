@@ -1,3 +1,7 @@
+# Version 1.0.18
+
+Added the option to double-click on a scene to activate it.  Makes life a little easier when changing between scenes.
+
 # Version 1.0.17
 
 Added option to always show the compass icon, so you can toggle on and off navigation quickly.

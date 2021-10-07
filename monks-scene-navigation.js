@@ -173,6 +173,9 @@ export default function initSceneNavigation() {
             // Click event listener
             const folders = html.find('.folder');
             folders.click(this._onClickFolder.bind(this));
+
+            const scenes = html.find('.scene');
+            scenes.dblclick(this._onClickScene2.bind(this));
         }
 
         /**
@@ -237,6 +240,26 @@ export default function initSceneNavigation() {
             });
 
             return contextmenu;
+        }
+
+        _onClickScene(event) {
+            //delay for a bit just in case we're double clicking
+            let that = this;
+            let clickScene = super._onClickScene;
+            window.setTimeout(function () {
+                if (!that.doubleclick && !canvas.loading)
+                    clickScene.call(that, event);
+                delete that.doubleclick;
+            }, 400);
+        }
+
+        _onClickScene2(event) {
+            if (setting("doubleclick-activate")) {
+                this.doubleclick = true;
+                event.preventDefault();
+                let sceneId = event.currentTarget.dataset.sceneId;
+                game.scenes.get(sceneId).activate();
+            }
         }
 
         _onClickFolder(event) {

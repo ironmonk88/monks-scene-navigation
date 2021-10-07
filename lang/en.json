@@ -15,6 +15,8 @@
   "MonksSceneNavigation.modify-scene-bar.hint": "Modify the Scene bar with Scene Navigation changes",
   "MonksSceneNavigation.quick-navigation.name": "Quick Navigation toggle",
   "MonksSceneNavigation.quick-navigation.hint": "Always show the compas icon so that you can click that to quickly change navigability.",
+  "MonksSceneNavigation.doubleclick-activate.name": "Double-click Activate",
+  "MonksSceneNavigation.doubleclick-activate.hint": "Double-click on a scene to activate it",
 
   "MonksSceneNavigation.folder-position.front": "Front",
   "MonksSceneNavigation.folder-position.back": "Back"
