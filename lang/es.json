@@ -16,6 +16,8 @@
   "MonksSceneNavigation.player-folders.hint": "Como normalmente a los jugadores solo se les da acceso a un puñado de escenas a la vez, no tiene demasiado sentido que se les muestre la estructura de directorios, pero si marca esta opción se les mostrará en cualquier caso, independientemente de las escenas que puedan ver los jugadores",
   "MonksSceneNavigation.modify-scene-bar.name": "Modificar barra de escenas",
   "MonksSceneNavigation.modify-scene-bar.hint": "Mofifica la barra de escenas con los cambios en la navegación por escenas",
+  "MonksSceneNavigation.quick-navigation.name": "Botón de navegación rápida",
+  "MonksSceneNavigation.quick-navigation.hint": "Muestra siempre el icono de la brújula para que al hacer clic para cambiar rápidamente la navegación",
 
   "MonksSceneNavigation.folder-position.front": "Principio",
   "MonksSceneNavigation.folder-position.back": "Final"
