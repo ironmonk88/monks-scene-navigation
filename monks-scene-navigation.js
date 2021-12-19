@@ -1,14 +1,22 @@
 ﻿import { registerSettings } from "./settings.js";
-//import initSceneNavigation from "./js/entity.js";
+export let debugEnabled = 0;
 
 export let debug = (...args) => {
     if (debugEnabled > 1) console.log("DEBUG: monks-scene-navigation | ", ...args);
 };
 export let log = (...args) => console.log("monks-scene-navigation | ", ...args);
 export let warn = (...args) => {
-    if (debugEnabled > 0) console.warn("monks-scene-navigation | ", ...args);
+    if (debugEnabled > 0) console.warn("WARN: monks-scene-navigation | ", ...args);
 };
 export let error = (...args) => console.error("monks-scene-navigation | ", ...args);
+
+export const setDebugLevel = (debugText) => {
+    debugEnabled = { none: 0, warn: 1, debug: 2, all: 3 }[debugText] || 0;
+    // 0 = none, warnings = 1, debug = 2, all = 3
+    if (debugEnabled >= 3)
+        CONFIG.debug.hooks = true;
+};
+
 export let i18n = key => {
     return game.i18n.localize(key);
 };
@@ -27,12 +35,12 @@ Hooks.once('init', async function () {
 });
 
 Hooks.on("renderSceneNavigation", (app, html, data) => {
-    log('render scene navigation', data);
+    debug('render scene navigation', data);
 });
 
 Hooks.on("renderMonksSceneNavigation", (app, html, data) => {
     //$('.scene.view, .folder.expanded', html).prev().addClass('pre-view');
-    log('render monks scene navigation', data);
+    debug('render monks scene navigation', data);
 });
 
 export default function initSceneNavigation() {
@@ -111,7 +119,7 @@ export default function initSceneNavigation() {
                             data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
                             //data.visible = game.user.isGM;
                         data.navopen = game.user.getFlag("monks-scene-navigation", "navopen" + data._id);
-                        log('folder check', data.navopen, data);
+                        debug('folder check', data.navopen, data);
                             data.css = [
                                 data.navopen ? "expanded" : null, "gm"
                             ].filter(c => !!c).join(" ");
@@ -152,7 +160,7 @@ export default function initSceneNavigation() {
             if (groups.length == 0)
                 groups = [{}];
 
-            log('get data', allscenes, groups);
+            debug('get data', allscenes, groups);
 
             // Return data for rendering
             let color = game?.user?.data?.flags?.PF2e?.settings?.color || 'blue'; 
@@ -266,7 +274,6 @@ export default function initSceneNavigation() {
             event.preventDefault();
             let folderId = event.currentTarget.dataset.folderId;
 
-            log('Click on a folder', folderId);
             let navopen = game.user.getFlag("monks-scene-navigation", "navopen" + folderId) || false;
 
             let updates = {};
@@ -336,7 +343,7 @@ Hooks.on("init", () => {
         event.preventDefault();
         event.stopPropagation();
 
-        const scene = game.scenes.get(this.dataset.entityId);
+        const scene = game.scenes.get(this.dataset.documentId);
         scene.update({ navigation: !scene.data.navigation });
     }
 
@@ -350,8 +357,8 @@ Hooks.on("init", () => {
                 icon: '<i class="fas fa-lock"></i>',
                 condition: () => game.user.isGM,
                 callback: li => {
-                    const entity = this.constructor.collection.get(li.data("entityId"));
-                    new PermissionControl(entity, {
+                    const document = this.constructor.collection.get(li.data("documentId"));
+                    new PermissionControl(document, {
                         top: Math.min(li[0].offsetTop, window.innerHeight - 350),
                         left: window.innerWidth - 720
                     }).render(true);
@@ -368,7 +375,7 @@ Hooks.on("init", () => {
                 if (oldcondition != undefined)
                     result = oldcondition.call(this, li);
 
-                const scene = game.scenes.get(li.data("entityId"));
+                const scene = game.scenes.get(li.data("documentId"));
                 if (result)
                     li.name = (scene.data.navigation ? "MonksSceneNavigation.RemoveNav" : "SCENES.ToggleNav");
 
@@ -380,22 +387,22 @@ Hooks.on("init", () => {
     }
 
     if (game.settings.get("monks-scene-navigation", "click-to-view")) {
-        let clickEntityName = function (wrapped, ...args) {
+        let clickDocumentName = function (wrapped, ...args) {
             let event = args[0];
             event.preventDefault();
-            const entity = this.constructor.collection.get(event.currentTarget.parentElement.dataset.entityId);
-            if (entity instanceof Scene)
-                entity.view();
+            const document = this.constructor.collection.get(event.currentTarget.parentElement.dataset.documentId);
+            if (document instanceof Scene)
+                document.view();
             else
                 wrapped(...args);
         };
 
         if (game.modules.get("lib-wrapper")?.active) {
-            libWrapper.register("monks-scene-navigation", "SceneDirectory.prototype._onClickEntityName", clickEntityName, "MIXED");
+            libWrapper.register("monks-scene-navigation", "SceneDirectory.prototype._onClickDocumentName", clickDocumentName, "MIXED");
         } else {
-            const oldClickSceneName = SceneDirectory.prototype._onClickEntityName;
-            SceneDirectory.prototype._onClickEntityName = function () {
-                return clickEntityName.call(this, oldClickSceneName.bind(this), ...arguments);
+            const oldClickSceneName = SceneDirectory.prototype._onClickDocumentName;
+            SceneDirectory.prototype._onClickDocumentName = function () {
+                return clickDocumentName.call(this, oldClickSceneName.bind(this), ...arguments);
             }
         }
     }
@@ -412,7 +419,7 @@ Hooks.on("renderSceneDirectory", (app, html, options) => {
     //add scene indicators
     if (game.settings.get("monks-scene-navigation", "scene-indicator")) {
         $('li.scene', html).each(function () {
-            let id = this.dataset.entityId;
+            let id = this.dataset.documentId;
             let scene = game.scenes.contents.find(s => { return s.id == id });
             if (scene != undefined) {
                 //show active, if players can navigate

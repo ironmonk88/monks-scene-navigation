@@ -1,3 +1,9 @@
+# Version 1.0.19
+
+Added v9 support.  Mostly with how the directory information is listed.
+
+Removed some debugging information, Scene navigation got very talkative.
+
 # Version 1.0.18
 
 Added the option to double-click on a scene to activate it.  Makes life a little easier when changing between scenes.
