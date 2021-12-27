@@ -287,7 +287,7 @@ export default function initSceneNavigation() {
             });
             if (openfolder.length != 0) {
                 for (let fldr of openfolder) {
-                    updates["navopen" + fldr._id] = false;
+                    updates["navopen" + fldr.data._id] = false;
                 }
             }
 

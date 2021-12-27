@@ -1,3 +1,7 @@
+# Version 1.0.21
+
+Fixed an error where folders weren't closing after opening a new folder.
+
 # Version 1.0.19
 
 Added v9 support.  Mostly with how the directory information is listed.
