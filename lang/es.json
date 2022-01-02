@@ -18,6 +18,8 @@
   "MonksSceneNavigation.modify-scene-bar.hint": "Mofifica la barra de escenas con los cambios en la navegación por escenas",
   "MonksSceneNavigation.quick-navigation.name": "Botón de navegación rápida",
   "MonksSceneNavigation.quick-navigation.hint": "Muestra siempre el icono de la brújula para que al hacer clic para cambiar rápidamente la navegación",
+  "MonksSceneNavigation.doubleclick-activate.name": "Activar con doble-clic",
+  "MonksSceneNavigation.doubleclick-activate.hint": "Al hacer doble-clic en una escena la activa",
 
   "MonksSceneNavigation.folder-position.front": "Principio",
   "MonksSceneNavigation.folder-position.back": "Final"
