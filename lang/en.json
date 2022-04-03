@@ -17,6 +17,10 @@
   "MonksSceneNavigation.quick-navigation.hint": "Always show the compas icon so that you can click that to quickly change navigability.",
   "MonksSceneNavigation.doubleclick-activate.name": "Double-click Activate",
   "MonksSceneNavigation.doubleclick-activate.hint": "Double-click on a scene to activate it",
+  "MonksSceneNavigation.minimize-combat.name": "Minimize during combat",
+  "MonksSceneNavigation.minimize-combat.hint": "Minimize the scene navigation when combat starts, maximize it when combat ends",
+  "MonksSceneNavigation.minimize-activate.name": "Minimize on Activate",
+  "MonksSceneNavigation.minimize-activate.hint": "Minimize the scene navigation when you activate a scene",
 
   "MonksSceneNavigation.folder-position.front": "Front",
   "MonksSceneNavigation.folder-position.back": "Back"

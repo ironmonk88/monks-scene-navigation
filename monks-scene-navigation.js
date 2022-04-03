@@ -32,6 +32,22 @@ Hooks.once('init', async function () {
         const msn = initSceneNavigation();
         CONFIG.ui.nav = msn;
     }
+
+    let sceneActivate = function (wrapped, ...args) {
+        if (setting("minimize-activate")) {
+            ui.nav.collapse();
+        }
+        return wrapped(...args);
+    }
+
+    if (game.modules.get("lib-wrapper")?.active) {
+        libWrapper.register("monks-scene-navigation", "Scene.prototype.activate", sceneActivate, "WRAPPER");
+    } else {
+        const oldSceneActivate = Scene.prototype.activate;
+        Scene.prototype.activate = function (event) {
+            return sceneActivate.call(this, oldSceneActivate.bind(this), ...arguments);
+        }
+    }
 });
 
 Hooks.on("renderSceneNavigation", (app, html, data) => {
@@ -250,6 +266,33 @@ export default function initSceneNavigation() {
             return contextmenu;
         }
 
+        async _onDrop(event) {
+
+            // Process drop data
+            let data;
+            try {
+                data = JSON.parse(event.dataTransfer.getData("text/plain"));
+            } catch (err) {
+                return false;
+            }
+            if (data.type !== "SceneNavigation") return false;
+
+            // Identify the document, the drop target, and the set of siblings
+            const scene = game.scenes.get(data.id);
+            const dropTarget = event.target.closest(".scene") || null;
+            const sibling = dropTarget ? game.scenes.get(dropTarget.dataset.sceneId) : null;
+            if (sibling && (sibling.id === scene.id)) return;
+            const siblings = this.scenes.filter(s => s.id !== scene.id && s.data.folder == scene.data.folder && s instanceof Scene);
+
+            // Update the navigation sorting for each Scene
+            return scene.sortRelative({
+                target: sibling,
+                siblings: siblings,
+                sortKey: "navOrder",
+                sortBefore: true
+            });
+        }
+
         _onClickScene(event) {
             //delay for a bit just in case we're double clicking
             let that = this;
@@ -459,4 +502,28 @@ Hooks.on("updateScene", (scene, data, options, userid) => {
         ui.scenes.render();
 });
 
+Hooks.on("updateCombat", async function (combat, delta) {
+    if (setting("minimize-combat")) {
+        if ((combat && (delta.round === 1 && combat.turn === 0 && combat.started === true))) {
+            if (!ui.nav._collapsed) {
+                if (!setting("restore")) {
+                    //record the state it was in before combat starts, don't record a false if this is the second combat to start and the nav is already collapsed
+                    game.settings.set("monks-scene-navigation", "restore", true);
+                }
+                ui.nav.collapse();
+            }
+        }
+    }
+});
 
+Hooks.on("deleteCombat", function (combat) {
+    if (setting("minimize-combat")) {
+        //check to make sure there are no longer any active combats
+        if (game.combats.active == undefined) {
+            if (setting("restore")) {
+                ui.nav.expand();
+                game.settings.set("monks-scene-navigation", "restore", false);
+            }
+        }
+    }
+});

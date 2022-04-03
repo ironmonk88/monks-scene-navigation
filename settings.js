@@ -76,4 +76,27 @@ export const registerSettings = function () {
 		type: Boolean,
 		onChange: debouncedReload
 	});
+	game.settings.register(modulename, "minimize-activate", {
+		name: game.i18n.localize("MonksSceneNavigation.minimize-activate.name"),
+		hint: game.i18n.localize("MonksSceneNavigation.minimize-activate.hint"),
+		scope: "world",
+		config: true,
+		default: false,
+		type: Boolean,
+	});
+	game.settings.register(modulename, "minimize-combat", {
+		name: game.i18n.localize("MonksSceneNavigation.minimize-combat.name"),
+		hint: game.i18n.localize("MonksSceneNavigation.minimize-combat.hint"),
+		scope: "world",
+		config: true,
+		default: true,
+		type: Boolean,
+	});
+
+	game.settings.register(modulename, "restore", {
+		scope: "client",
+		config: false,
+		default: false,
+		type: Boolean,
+	});
 };

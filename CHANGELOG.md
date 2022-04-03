@@ -1,3 +1,9 @@
+# Version 1.0.22
+
+Added drag and drop functionality to re-order the scenes on the Navigation bar.
+
+Added the option to minimize the scene navigation when combat starts, or when a scene is activated.
+
 # Version 1.0.21
 
 Fixed an error where folders weren't closing after opening a new folder.
