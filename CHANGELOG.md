@@ -1,3 +1,13 @@
+# Version 1.0.23
+
+Changed the layout so that the folder name isn't displayed when a folder is opened.  It was taking up some room and was a bit redundant.
+
+Change the layout style a bit to try and make it a little easier to see what's happening.
+
+Removed tooltips for the player when hovering over a scene.
+
+Added the option to show for the GM either the real name or the nav name.
+
 # Version 1.0.22
 
 Added drag and drop functionality to re-order the scenes on the Navigation bar.

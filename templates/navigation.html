@@ -7,18 +7,12 @@
         </a>
         {{/unless}}
 
-        <ol class="scene-list">
-            {{#if this.folder._id}}
-            <li class="folder-header folder nav-item" data-folder-id="{{this.folder._id}}" draggable="false" style="background-color: {{this.folder.color}};" title="{{this.folder.name}}">
-                <i class="fas fa-folder-open"></i>
-                {{this.folder.name}}
-            </li>
-            {{/if}}
+        <ol class="scene-list" style="border-color: {{this.folder.color}};">
             {{#each this.folder.scenes}}
             {{#if this.directory}}
             {{#if this.visible}}
             <li class="folder nav-item {{this.css}}" data-folder-id="{{this._id}}">
-                <a class="scene-name folder-name" style="border-top-color: {{this.color}};" title="{{this.name}}">
+                <a class="scene-name folder-name" style="border-color: {{this.color}};" {{#if @root.isGM}}title="{{this.tooltip}}"{{/if}}>
                     <i class="fas {{#if this.navopen}}fa-folder-open{{else}}fa-folder{{/if}}"></i>
                    {{this.name}}
                 </a>
@@ -35,7 +29,7 @@
             </li>
             {{/if}}
             {{else}}
-            <li class="scene nav-item {{this.css}}" data-scene-id="{{this._id}}" title="{{this.name}}">
+            <li class="scene nav-item {{this.css}}" data-scene-id="{{this._id}}" {{#if @root.isGM}}title="{{this.tooltip}}"{{/if}}>
                 <a class="scene-name">
                     {{this.name}}
                 </a>

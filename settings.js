@@ -49,6 +49,15 @@ export const registerSettings = function () {
 		default: false,
 		type: Boolean
 	});
+	game.settings.register(modulename, "display-realname", {
+		name: game.i18n.localize("MonksSceneNavigation.display-realname.name"),
+		hint: game.i18n.localize("MonksSceneNavigation.display-realname.hint"),
+		scope: "world",
+		config: true,
+		default: true,
+		type: Boolean,
+		onChange: debouncedReload
+	});
 	game.settings.register(modulename, "display-background", {
 		name: game.i18n.localize("MonksSceneNavigation.display-background.name"),
 		hint: game.i18n.localize("MonksSceneNavigation.display-background.hint"),

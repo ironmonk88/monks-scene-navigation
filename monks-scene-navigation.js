@@ -113,45 +113,38 @@ export default function initSceneNavigation() {
                         if (folder && s.active)
                             folder.active = true;
 
-                        //if (folder == undefined || folder?.navopen) {
-                            //if (folder && users.length)
-                            //    folder.users = (folder.users || []).concat(users);
-                            let data = duplicate(s.data);
-                            data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
-                            data.users = users;
-                            data.visible = (game.user.isGM || s.isOwner || s.active);
-                            data.css = [
-                                s.isView ? "view" : null,
-                                s.active ? "active" : null,
-                                data.permission.default === 0 ? "gm" : null
-                            ].filter(c => !!c).join(" ");
-                            return data;
-                        //} else
-                        //    return {};
+                        let data = duplicate(s.data);
+                        let navName = data.navName || data.name;
+                        let realName = data.name;
+                        let name = (setting("display-realname") && game.user.isGM ? realName : navName);
+                        data.name = TextEditor.truncateText(name, { maxLength: 32 });
+                        data.tooltip = (game.user.isGM ? (setting("display-realname") ? navName : realName) : navName);
+                        data.users = users;
+                        data.visible = (game.user.isGM || s.isOwner || s.active);
+                        data.css = [
+                            s.isView ? "view" : null,
+                            s.active ? "active" : null,
+                            data.permission.default === 0 ? "gm" : null
+                        ].filter(c => !!c).join(" ");
+                        return data;
                     } else if (game.user.isGM || setting("player-folders")) { //only tranverse the folders if it's the GM
                         let data = {}
-                        //if (folder == undefined || folder?.navopen) {
-                            data = duplicate(s.data);
-                            data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
-                            //data.visible = game.user.isGM;
+                        data = duplicate(s.data);
+                        data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
                         data.navopen = game.user.getFlag("monks-scene-navigation", "navopen" + data._id);
                         debug('folder check', data.navopen, data);
-                            data.css = [
-                                data.navopen ? "expanded" : null, "gm"
-                            ].filter(c => !!c).join(" ");
-                            data.directory = true;
-                            data.scenes = mapScenes(data);
+                        data.css = [
+                            data.navopen ? "expanded" : null, "gm"
+                        ].filter(c => !!c).join(" ");
+                        data.directory = true;
+                        data.scenes = mapScenes(data);
 
                         data.visible = (data.scenes.find(s => { return !s.directory || s.visible }) != undefined); //(data.scenes.length > 0); //(game.user.isGM && data.scenes.length > 0);
 
-                            if (folder && data.users?.length)
-                                folder.users = (folder.users || []).concat(data.users);
-                            if (folder && data.active)
-                                folder.active = true;
-                        //} else {
-                        //    data._id = s.data._id;
-                        //    data.navopen = s.getFlag("monks-scene-navigation", "navopen") ;
-                        //}
+                        if (folder && data.users?.length)
+                            folder.users = (folder.users || []).concat(data.users);
+                        if (folder && data.active)
+                            folder.active = true;
 
                         return data;
                     }
@@ -187,7 +180,8 @@ export default function initSceneNavigation() {
                     color,
                     (this._collapsed ? 'collapsed' : null)
                 ].filter(c => c !== null).join(" "),
-                groups: groups
+                groups: groups,
+                isGM: game.user.isGM
             }
         }
 

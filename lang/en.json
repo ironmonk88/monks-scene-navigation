@@ -21,6 +21,8 @@
   "MonksSceneNavigation.minimize-combat.hint": "Minimize the scene navigation when combat starts, maximize it when combat ends",
   "MonksSceneNavigation.minimize-activate.name": "Minimize on Activate",
   "MonksSceneNavigation.minimize-activate.hint": "Minimize the scene navigation when you activate a scene",
+  "MonksSceneNavigation.display-realname.name": "Display Real Name",
+  "MonksSceneNavigation.display-realname.hint": "Display the real scene name for the GM instead of the navigation name",
 
   "MonksSceneNavigation.folder-position.front": "Front",
   "MonksSceneNavigation.folder-position.back": "Back"

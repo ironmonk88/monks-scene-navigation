@@ -2,7 +2,7 @@
 	"name": "monks-scene-navigation",
 	"title": "Monk's Scene Navigation",
 	"description": "Tidy up the scene navigation and let it respect the folder structure",
-	"version": "1.0.22",
+	"version": "1.0.23",
 	"minimumCoreVersion": "9",
 	"compatibleCoreVersion": "9",
 	"author": "IronMonk",
@@ -32,7 +32,7 @@
 	"styles": [ "css/monks-scene-navigation.css" ],
 	"packs": [],
 	"url": "https://github.com/ironmonk88/monks-scene-navigation",
-	"download": "https://github.com/ironmonk88/monks-scene-navigation/archive/1.0.22.zip",
+	"download": "https://github.com/ironmonk88/monks-scene-navigation/archive/1.0.23.zip",
 	"manifest": "https://github.com/ironmonk88/monks-scene-navigation/releases/latest/download/module.json",
 	"bugs": "https://github.com/ironmonk88/monks-scene-navigation/issues",
 	"allowBugReporter": true
