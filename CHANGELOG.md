@@ -1,3 +1,7 @@
+# Version 1.0.24
+
+Adding v10 support.
+
 # Version 1.0.23
 
 Changed the layout so that the folder name isn't displayed when a folder is opened.  It was taking up some room and was a bit redundant.

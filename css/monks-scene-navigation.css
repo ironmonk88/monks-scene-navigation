@@ -284,6 +284,10 @@
     line-height: 14px;
 }
 
+.sidebar-tab.directory .directory-item.scene h3 .permissions > a {
+    line-height: 19px;
+}
+
 .sidebar-tab.directory .directory-item.scene h3 .permissions i {
     font-size: 13px;
     text-shadow: 1px 1px 3px #000;
