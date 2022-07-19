@@ -101,7 +101,7 @@ export default function initSceneNavigation() {
             // Modify Scene data
             let mapScenes = function (folder) { //flatten the scenes if not the GM
                 let scenes = allscenes.filter(s => {
-                    let parentid = isNewerVersion(game.version, "9") ? (s.parent || s.folder?._id) : (s.data.parent || s.data.folder);
+                    let parentid = isNewerVersion(game.version, "9.9999") ? (s.parent || s.folder?._id) : (s.data.parent || s.data.folder);
                     return parentid == folder?._id || (!game.user.isGM && !setting("player-folders"))
                 });   
                 scenes = scenes.map(s => {
@@ -114,7 +114,7 @@ export default function initSceneNavigation() {
                         if (folder && s.active)
                             folder.active = true;
 
-                        let data = (isNewerVersion(game.version, "9") ? s.toObject(false) : duplicate(s.data));
+                        let data = (isNewerVersion(game.version, "9.9999") ? s.toObject(false) : duplicate(s.data));
                         let navName = data.navName || data.name;
                         let realName = data.name;
                         let name = (setting("display-realname") && game.user.isGM ? realName : navName);
@@ -129,7 +129,7 @@ export default function initSceneNavigation() {
                         ].filter(c => !!c).join(" ");
                         return data;
                     } else if (game.user.isGM || setting("player-folders")) { //only tranverse the folders if it's the GM
-                        let data = isNewerVersion(game.version, "9") ? s.toObject(false) : duplicate(s.data);
+                        let data = isNewerVersion(game.version, "9.9999") ? s.toObject(false) : duplicate(s.data);
                         data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
                         data.navopen = game.user.getFlag("monks-scene-navigation", "navopen" + data._id);
                         debug('folder check', data.navopen, data);
@@ -395,7 +395,7 @@ Hooks.on("init", () => {
                 condition: () => game.user.isGM,
                 callback: li => {
                     const document = this.constructor.collection.get(li.data("documentId"));
-                    let cls = isNewerVersion(game.version, "9") ? DocumentOwnershipConfig : PermissionControl;
+                    let cls = isNewerVersion(game.version, "9.9999") ? DocumentOwnershipConfig : PermissionControl;
                     new cls(document, {
                         top: Math.min(li[0].offsetTop, window.innerHeight - 350),
                         left: window.innerWidth - 720

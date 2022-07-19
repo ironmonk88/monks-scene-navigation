@@ -1,7 +1,7 @@
 {
   "title": "Monk's Scene Navigation",
   "description": "Re-organize the scene navigation to show scenes on one line, and to respect the folder structure.  As well as adding some quality of life improvments for navigating scenes.",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "authors": [
     {
       "name": "IronMonk",
@@ -31,7 +31,7 @@
     "css/monks-scene-navigation.css"
   ],
   "url": "https://github.com/ironmonk88/monks-scene-navigation",
-  "download": "https://github.com/ironmonk88/monks-scene-navigation/archive/1.0.26.zip",
+  "download": "https://github.com/ironmonk88/monks-scene-navigation/archive/1.0.27.zip",
   "manifest": "https://github.com/ironmonk88/monks-scene-navigation/releases/latest/download/module.json",
   "bugs": "https://github.com/ironmonk88/monks-scene-navigation/issues",
   "allowBugReporter": true,
