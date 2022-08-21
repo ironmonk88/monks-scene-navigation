@@ -2,7 +2,7 @@
   "I18N.LANGUAGE": "Español",
   "I18N.MAINTAINERS": "@Viriato139ac#0342",
   
-  "MonksSceneNavigation.RemoveNav": "Remove Navigation",
+  "MonksSceneNavigation.RemoveNav": "Deshabilitar navegación",
 
   "MonksSceneNavigation.click-to-view.name": "Clic para mostrar",
   "MonksSceneNavigation.click-to-view.hint": "Al hacer clic se navega a la escena en lugar de entrar en la configuración",
@@ -20,6 +20,12 @@
   "MonksSceneNavigation.quick-navigation.hint": "Muestra siempre el icono de la brújula para que al hacer clic para cambiar rápidamente la navegación",
   "MonksSceneNavigation.doubleclick-activate.name": "Activar con doble-clic",
   "MonksSceneNavigation.doubleclick-activate.hint": "Al hacer doble-clic en una escena la activa",
+  "MonksSceneNavigation.minimize-combat.name": "Minimizar durante el combate",
+  "MonksSceneNavigation.minimize-combat.hint": "Minimiza la navegación de escenas cuando comienza el combate, y se vuelve a maximizar cuando finaliza",
+  "MonksSceneNavigation.minimize-activate.name": "Minimizar al activar",
+  "MonksSceneNavigation.minimize-activate.hint": "Minimiza la navegación de escenas cuando se activa una",
+  "MonksSceneNavigation.display-realname.name": "Mostrar nombre real",
+  "MonksSceneNavigation.display-realname.hint": "Muestra el nombre real de la escena para el GM en lugar del nombre establecido para la navegación",
 
   "MonksSceneNavigation.folder-position.front": "Principio",
   "MonksSceneNavigation.folder-position.back": "Final"
