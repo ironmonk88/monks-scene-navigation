@@ -101,8 +101,8 @@ export default function initSceneNavigation() {
             // Modify Scene data
             let mapScenes = function (folder) { //flatten the scenes if not the GM
                 let scenes = allscenes.filter(s => {
-                    let parentid = s.parent || s.folder?._id;
-                    return parentid == folder?._id || (!game.user.isGM && !setting("player-folders"))
+                    let folderid = s.folder?._id;
+                    return folderid == folder?._id || (!game.user.isGM && !setting("player-folders"))
                 });   
                 scenes = scenes.map(s => {
                     if (s instanceof Scene) {
@@ -315,7 +315,7 @@ export default function initSceneNavigation() {
             let folder = scenes.find(f => f.id == folderId);
 
             let openfolder = scenes.filter(f => {
-                return f instanceof Folder && game.user.getFlag("monks-scene-navigation", "navopen" + f.id) && f.id != folderId && f.parent == folder.parent;
+                return f instanceof Folder && game.user.getFlag("monks-scene-navigation", "navopen" + f.id) && f.id != folderId && f.folder == folder.folder;
             });
             if (openfolder.length != 0) {
                 for (let fldr of openfolder) {
