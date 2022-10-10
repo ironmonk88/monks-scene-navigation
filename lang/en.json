@@ -23,6 +23,8 @@
   "MonksSceneNavigation.minimize-activate.hint": "Minimize the scene navigation when you activate a scene",
   "MonksSceneNavigation.display-realname.name": "Display Real Name",
   "MonksSceneNavigation.display-realname.hint": "Display the real scene name for the GM instead of the navigation name",
+  "MonksSceneNavigation.smaller-directory.name": "Smaller Directory list",
+  "MonksSceneNavigation.smaller-directory.hint": "Display the directory scene entries in smaller format",
 
   "MonksSceneNavigation.folder-position.front": "Front",
   "MonksSceneNavigation.folder-position.back": "Back"

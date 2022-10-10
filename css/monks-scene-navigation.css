@@ -2,7 +2,7 @@
     z-index: 30;
 }
 
-.monks-scene-navigation {
+.monks-scene-navigation:not(.category-filter) {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -14,7 +14,7 @@
     height: 44px;
     z-index: 30;
     margin-bottom: 8px;
-    display:none;
+    display: none;
 }
 
 .monks-scene-navigation:first-child,
@@ -263,9 +263,10 @@
 }
 
 .sidebar-tab.directory .directory-item.scene h3 > a {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     padding: 5px 10px;
     border-radius: 4px;
+    border: 1px solid #000;
 }
 
 .sidebar-tab.directory .directory-item.scene h3 a i {
@@ -341,4 +342,13 @@
 #navigation .monks-scene-navigation:not(:first-child) .scene-list {
     border-right-width: 4px;
     border-left-width: 4px;
+}
+
+#scenes.scenes-sidebar.smaller-directory .scene {
+    height: var(--sidebar-item-height);
+    line-height: var(--sidebar-item-height);
+}
+
+#scenes.scenes-sidebar.smaller-directory .scene h3 {
+    line-height: var(--sidebar-item-height);
 }

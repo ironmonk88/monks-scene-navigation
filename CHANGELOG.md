@@ -1,3 +1,11 @@
+# Version 10.1
+
+Updated Spanish translation.  Thank you lozanoje
+
+Fixed issues with re-ordering scenes.
+
+Added the option to decrease the size of Scene entries int he sidebar directory.
+
 # Version 1.0.24
 
 Adding v10 support.

@@ -101,6 +101,15 @@ export const registerSettings = function () {
 		default: true,
 		type: Boolean,
 	});
+	game.settings.register(modulename, "smaller-directory", {
+		name: game.i18n.localize("MonksSceneNavigation.smaller-directory.name"),
+		hint: game.i18n.localize("MonksSceneNavigation.smaller-directory.hint"),
+		scope: "world",
+		config: true,
+		default: false,
+		type: Boolean,
+		onChange: debouncedReload
+	});
 
 	game.settings.register(modulename, "restore", {
 		scope: "client",

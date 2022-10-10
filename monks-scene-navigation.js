@@ -82,14 +82,14 @@ export default function initSceneNavigation() {
                 folders = ui.scenes.folders.filter(f => {
                     return true;
                 });
-                folders.sort((a, b) => (a.sort ?? a.data?.sort) - (b.sort ?? b.data?.sort) - 1);
+                folders.sort((a, b) => a.sort - b.sort - 1);
             }
 
             //show the scene if the scene is active, or is currently being viewed, or can be navigated to
             let scenes = game.scenes.contents.filter(s => {
-                return (((s.navigation ?? s.data?.navigation) && s.visible) || s.active || s.isView); // || s.permission > 3
+                return ((s.navigation && s.visible) || s.active || s.isView); // || s.permission > 3
             });
-            scenes.sort((a, b) => (a.navOrder ?? a.data.navOrder) - (b.navOrder ?? b.data.navOrder));
+            scenes.sort((a, b) => a.navOrder - b.navOrder);
 
             return (game.settings.get("monks-scene-navigation", "folder-position") == "front" ? folders.concat(scenes) : scenes.concat(folders));
         }
@@ -101,20 +101,20 @@ export default function initSceneNavigation() {
             // Modify Scene data
             let mapScenes = function (folder) { //flatten the scenes if not the GM
                 let scenes = allscenes.filter(s => {
-                    let parentid = isNewerVersion(game.version, "9.9999") ? (s.parent || s.folder?._id) : (s.data.parent || s.data.folder);
+                    let parentid = s.parent || s.folder?._id;
                     return parentid == folder?._id || (!game.user.isGM && !setting("player-folders"))
                 });   
                 scenes = scenes.map(s => {
                     if (s instanceof Scene) {
                         let users = game.users.contents
                             .filter(u => u.active && (u.viewedScene === s.id))
-                            .map(u => { return { letter: u.name[0], color: (u.color ?? u.data.color) } });
+                            .map(u => { return { letter: u.name[0], color: u.color } });
                         if (folder && users.length)
                             folder.users = (folder.users || []).concat(users);
                         if (folder && s.active)
                             folder.active = true;
 
-                        let data = (isNewerVersion(game.version, "9.9999") ? s.toObject(false) : duplicate(s.data));
+                        let data = s.toObject(false);
                         let navName = data.navName || data.name;
                         let realName = data.name;
                         let name = (setting("display-realname") && game.user.isGM ? realName : navName);
@@ -125,11 +125,11 @@ export default function initSceneNavigation() {
                         data.css = [
                             s.isView ? "view" : null,
                             s.active ? "active" : null,
-                            (data.ownership ?? data.permission)?.default === 0 ? "gm" : null
+                            data.ownership?.default === 0 ? "gm" : null
                         ].filter(c => !!c).join(" ");
                         return data;
                     } else if (game.user.isGM || setting("player-folders")) { //only tranverse the folders if it's the GM
-                        let data = isNewerVersion(game.version, "9.9999") ? s.toObject(false) : duplicate(s.data);
+                        let data = s.toObject(false);
                         data.name = TextEditor.truncateText(data.navName || data.name, { maxLength: 32 });
                         data.navopen = game.user.getFlag("monks-scene-navigation", "navopen" + data._id);
                         debug('folder check', data.navopen, data);
@@ -172,7 +172,7 @@ export default function initSceneNavigation() {
             debug('get data', allscenes, groups);
 
             // Return data for rendering
-            let color = (game?.user?.flags ?? game?.user?.data?.flags)?.PF2e?.settings?.color || 'blue';
+            let color = game?.user?.flags?.PF2e?.settings?.color || 'blue';
             return {
                 collapsed: this._collapsed,
                 cssClass: [
@@ -263,20 +263,15 @@ export default function initSceneNavigation() {
         async _onDrop(event) {
 
             // Process drop data
-            let data;
-            try {
-                data = JSON.parse(event.dataTransfer.getData("text/plain"));
-            } catch (err) {
-                return false;
-            }
-            if (data.type !== "SceneNavigation") return false;
+            const data = TextEditor.getDragEventData(event);
+            if (data.type !== "Scene") return;
 
             // Identify the document, the drop target, and the set of siblings
-            const scene = game.scenes.get(data.id);
+            const scene = await Scene.implementation.fromDropData(data);
             const dropTarget = event.target.closest(".scene") || null;
             const sibling = dropTarget ? game.scenes.get(dropTarget.dataset.sceneId) : null;
             if (sibling && (sibling.id === scene.id)) return;
-            const siblings = this.scenes.filter(s => s.id !== scene.id && (s.folder ?? s.data.folder) == (scene.folder ?? scene.data.folder) && s instanceof Scene);
+            const siblings = this.scenes.filter(s => s.id !== scene.id && s.folder == scene.folder && s instanceof Scene);
 
             // Update the navigation sorting for each Scene
             return scene.sortRelative({
@@ -320,11 +315,11 @@ export default function initSceneNavigation() {
             let folder = scenes.find(f => f.id == folderId);
 
             let openfolder = scenes.filter(f => {
-                return f instanceof Folder && game.user.getFlag("monks-scene-navigation", "navopen" + f.id) && f.id != folderId && (f.parent ?? f.data.parent) == (folder.parent ?? folder.data.parent);
+                return f instanceof Folder && game.user.getFlag("monks-scene-navigation", "navopen" + f.id) && f.id != folderId && f.parent == folder.parent;
             });
             if (openfolder.length != 0) {
                 for (let fldr of openfolder) {
-                    updates["navopen" + (fldr._id ?? fldr.data._id)] = false;
+                    updates["navopen" + fldr._id] = false;
                 }
             }
 
@@ -381,7 +376,7 @@ Hooks.on("init", () => {
         event.stopPropagation();
 
         const scene = game.scenes.get(this.dataset.documentId);
-        scene.update({ navigation: !(scene.navigation ?? scene.data.navigation) });
+        scene.update({ navigation: !scene.navigation });
     }
 
     let oldContext = SceneDirectory.prototype._getEntryContextOptions;
@@ -395,7 +390,7 @@ Hooks.on("init", () => {
                 condition: () => game.user.isGM,
                 callback: li => {
                     const document = this.constructor.collection.get(li.data("documentId"));
-                    let cls = isNewerVersion(game.version, "9.9999") ? DocumentOwnershipConfig : PermissionControl;
+                    let cls = DocumentOwnershipConfig;
                     new cls(document, {
                         top: Math.min(li[0].offsetTop, window.innerHeight - 350),
                         left: window.innerWidth - 720
@@ -462,40 +457,43 @@ Hooks.on("renderDocumentOwnershipConfig", (app, html, options) => {
 
 Hooks.on("renderSceneDirectory", (app, html, options) => {
     //add scene indicators
-    if (game.settings.get("monks-scene-navigation", "scene-indicator")) {
+    if (setting("scene-indicator")) {
         $('li.scene', html).each(function () {
             let id = this.dataset.documentId;
             let scene = game.scenes.contents.find(s => { return s.id == id });
             if (scene != undefined) {
                 //show active, if players can navigate
-                $(this).toggleClass('navigate', (scene.navigation ?? scene.data.navigation));
+                $(this).toggleClass('navigate', scene.navigation);
                 $('h3 a', this).attr('title', $('h3 a', this).html());
                 if (scene.active)
                     $('h3 a', this).prepend($('<i>').addClass('fas fa-bullseye'));
 
-                if ((scene.navigation ?? scene.data.navigation) || setting('quick-navigation') || (scene.ownership ?? scene.data.permission).default > 0 || Object.keys((scene.ownership ?? scene.data.permission)).length > 1) {
+                if (scene.navigation || setting('quick-navigation') || scene.ownership.default > 0 || Object.keys(scene.ownership).length > 1) {
                     let permissions = $('<div>').addClass('permissions flexrow');
-                    if ((scene.navigation ?? scene.data.navigation) || setting('quick-navigation')) {
+                    if (scene.navigation || setting('quick-navigation')) {
                         if (setting('quick-navigation'))
                             permissions.append($('<a>').append($('<i>').addClass('fas fa-compass').attr('title', 'Navigatable')).click(app._toggleNavigation.bind(this)));
                         else
                             permissions.append($('<i>').addClass('fas fa-compass').attr('title', 'Navigatable'));
                     }
-                    if ((scene.ownership ?? scene.data.permission).default > 0)
+                    if (scene.ownership.default > 0)
                         permissions.append($('<i>').addClass('fas fa-users').attr('title', 'Everyone'));
                     else {
-                        for (let [key, value] of Object.entries((scene.ownership ?? scene.data.permission))) {
+                        for (let [key, value] of Object.entries(scene.ownership)) {
                             let user = game.users.find(u => {
                                 return u.id == key && !u.isGM;
                             });
                             if(user != undefined && value > 0)
-                                permissions.append($('<div>').css({ backgroundColor: (user.color ?? user.data.color) }).html(user.name[0]).attr('title', user.name));
+                                permissions.append($('<div>').css({ backgroundColor: user.color }).html(user.name[0]).attr('title', user.name));
                         }
                     }
                     $('h3', this).append(permissions);
                 }
             }
         });
+    }
+    if (setting("smaller-directory")) {
+        $(html).addClass("smaller-directory");
     }
 });
 
