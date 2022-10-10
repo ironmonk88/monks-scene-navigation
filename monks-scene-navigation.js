@@ -269,10 +269,10 @@ export default function initSceneNavigation() {
             } catch (err) {
                 return false;
             }
-            if (data.type !== "SceneNavigation") return false;
+            if (data.type !== "Scene") return false;
 
             // Identify the document, the drop target, and the set of siblings
-            const scene = game.scenes.get(data.id);
+            const scene = fromUuidSync(data.uuid);
             const dropTarget = event.target.closest(".scene") || null;
             const sibling = dropTarget ? game.scenes.get(dropTarget.dataset.sceneId) : null;
             if (sibling && (sibling.id === scene.id)) return;
