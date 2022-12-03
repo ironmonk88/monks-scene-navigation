@@ -11,9 +11,25 @@ The SceneNavigation will now also use the folder structure set up in the Scenes 
 
 ![monks-scene-navigation](/screenshots/navigation.png)
 
-Added permissions to individual Scenes, so you can now set which players have access to which Scenes on a more granular level.
+### Individual Permissions
+Added permissions to individual Scenes, so you can now set which players have access to which Scenes on a more granular level. Also adds icons to the Scenes in the Scene Directory if the Scene has viewing permissions above the default.
 
-Icons are added to the Scenes in the Scene Directory to show if the Scene is active or if the Scene has viewing permissions above the default.
+![monks-scene-navigation](/screenshots/SceneNavDefaultPermissions.webp)
+![monks-scene-navigation](/screenshots/SceneNavSpecificUserPermissions.webp)
+
+### Currently Active Scene
+
+Icons are added to the Scenes in the Scene Directory to show if the Scene is active.
+
+![monks-scene-navigation](/screenshots/SceneNavActiveScene.webp)
+
+### Smaller Scenes
+
+![monks-scene-navigation](/screenshots/MonksScenesComparison.webp)
+
+Condenses the scene images within the directory.
+
+### Click to Navigate
 
 ![monks-scene-navigation](/screenshots/scene-identifiers.png)
 
