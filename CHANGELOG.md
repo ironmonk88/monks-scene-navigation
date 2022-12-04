@@ -12,6 +12,8 @@ Fixed issue with dragging and dropping folders on the scene navigation.
 
 Fixed issues with dragging and dropping the scene to the right.
 
+Spanish translations updated.  Thank you lozanoje
+
 # Version 10.2
 
 Fixed issue with opening sub folders
