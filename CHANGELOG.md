@@ -1,3 +1,17 @@
+# Version 10.3
+
+Changed the Scene name to display in italics if the nav name is different from the real name.
+
+Added the option to not use the dark background for scene names in the scene directory.
+
+Updated the Scene Navigation to allow all the extras even if you don't want the scene stylings.
+
+Added the option to have a back button to go back to the previously viewed scene.
+
+Fixed issue with dragging and dropping folders on the scene navigation.
+
+Fixed issues with dragging and dropping the scene to the right.
+
 # Version 10.2
 
 Fixed issue with opening sub folders

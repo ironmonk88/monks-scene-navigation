@@ -20,9 +20,27 @@ export const registerSettings = function () {
 		default: true,
 		type: Boolean
 	});
+	game.settings.register(modulename, "directory-background", {
+		name: game.i18n.localize("MonksSceneNavigation.directory-background.name"),
+		hint: game.i18n.localize("MonksSceneNavigation.directory-background.hint"),
+		scope: "world",
+		config: true,
+		default: true,
+		type: Boolean
+	});
+	
 	game.settings.register(modulename, "modify-scene-bar", {
 		name: game.i18n.localize("MonksSceneNavigation.modify-scene-bar.name"),
 		hint: game.i18n.localize("MonksSceneNavigation.modify-scene-bar.hint"),
+		scope: "world",
+		config: true,
+		default: true,
+		type: Boolean,
+		onChange: debouncedReload
+	});
+	game.settings.register(modulename, "add-back-button", {
+		name: game.i18n.localize("MonksSceneNavigation.add-back-button.name"),
+		hint: game.i18n.localize("MonksSceneNavigation.add-back-button.hint"),
 		scope: "world",
 		config: true,
 		default: true,

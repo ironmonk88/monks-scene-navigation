@@ -148,6 +148,10 @@
     left: 0px;
 }
 
+#navigation .monks-scene-navigation .scene-list > li.italic a {
+    font-style: italic;
+}
+
 #navigation.ui .monks-scene-navigation .scene-list > li a {
     background: rgba(52, 52, 52, 0.95);
     border: 1px solid #493c31;
@@ -262,7 +266,7 @@
     color: #fff;
 }
 
-.sidebar-tab.directory .directory-item.scene h3 > a {
+.sidebar-tab.directory .directory-item.scene.background h3 > a {
     background-color: rgba(0, 0, 0, 0.8);
     padding: 5px 10px;
     border-radius: 4px;
@@ -351,4 +355,24 @@
 
 #scenes.scenes-sidebar.smaller-directory .scene h3 {
     line-height: var(--sidebar-item-height);
+}
+
+#navigation .nav-item-container {
+    background: rgba(0, 0, 0, 0.5);
+    height: 49px;
+    padding: 0px;
+    margin-bottom: 0px;
+    flex: 0 0 32px;
+    width: 32px;
+}
+
+#navigation .nav-item-container #nav-toggle {
+    background: transparent;
+    line-height: 24px;
+    flex: 1;
+}
+
+#navigation .nav-item-container #nav-back {
+    line-height: 24px;
+    text-align: center;
 }

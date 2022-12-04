@@ -25,6 +25,10 @@
   "MonksSceneNavigation.display-realname.hint": "Display the real scene name for the GM instead of the navigation name",
   "MonksSceneNavigation.smaller-directory.name": "Smaller Directory list",
   "MonksSceneNavigation.smaller-directory.hint": "Display the directory scene entries in smaller format",
+  "MonksSceneNavigation.directory-background.name": "Name Background",
+  "MonksSceneNavigation.directory-background.hint": "Add a dark background to the scene name in the directory listing for increased readability",
+  "MonksSceneNavigation.add-back-button.name": "Back Button",
+  "MonksSceneNavigation.add-back-button.hint": "Add a back button to go back to the previous scene",
 
   "MonksSceneNavigation.folder-position.front": "Front",
   "MonksSceneNavigation.folder-position.back": "Back"
