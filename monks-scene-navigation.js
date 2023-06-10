@@ -474,7 +474,7 @@ Hooks.on("init", () => {
                 wrapped(...args);
         };
 
-        if (isV11) {
+        if (isV11()) {
             patchFunc("SceneDirectory.prototype._onClickEntryName", clickDocumentName, "MIXED");
         } else {
             patchFunc("SceneDirectory.prototype._onClickDocumentName", clickDocumentName, "MIXED");
@@ -518,7 +518,7 @@ Hooks.on("renderDocumentOwnershipConfig", (app, html, options) => {
 });
 
 Hooks.on("renderSceneDirectory", (app, html, options) => {
-    if (isV11) {
+    if (isV11()) {
         $(".document.scene h3.document-name:not(.entry-name)", html).addClass("entry-name");
     }
 
