@@ -1,3 +1,15 @@
+# Version 11.01
+
+Added v11 Support
+
+Fixed issues with the font colouring on the scene names
+
+Fixed confusing context menu entry when viewing a scene that isn't navigatable.
+
+Fixed issues with collapsing on activate when reloading a game.
+
+Compensating for a Foundry bug in v11 that prevents scenes from being clicked.
+
 # Version 10.3
 
 Changed the Scene name to display in italics if the nav name is different from the real name.

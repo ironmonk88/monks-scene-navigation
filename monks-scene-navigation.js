@@ -24,6 +24,21 @@ export let setting = key => {
     return game.settings.get("monks-scene-navigation", key);
 };
 
+export let isV11 = () => {
+    return isNewerVersion(game.version, "10.9999");
+};
+
+export let patchFunc = (prop, func, type = "WRAPPER") => {
+    if (game.modules.get("lib-wrapper")?.active) {
+        libWrapper.register("monks-scene-navigation", prop, func, type);
+    } else {
+        const oldFunc = eval(prop);
+        eval(`${prop} = function (event) {
+            return func.call(this, ${type != "OVERRIDE" ? "oldFunc.bind(this)," : ""} ...arguments);
+        }`);
+    }
+}
+
 Hooks.once('init', async function () {
     log('Initializing Monks Scene Navigation');
     registerSettings();
@@ -256,23 +271,47 @@ export default function initSceneNavigation() {
 
         _getContextMenuOptions() {
             let contextmenu = super._getContextMenuOptions();
-            let menu = contextmenu.find(m => { return m.name == "SCENES.ToggleNav" });
-            if (menu != undefined)
-                menu.name = "MonksSceneNavigation.RemoveNav";
+            let menu = contextmenu.findSplice(m => { return m.name == "SCENES.ToggleNav" });
 
-            contextmenu.push({
-                name: "Set View Position",
-                icon: '<i class="fas fa-crop-alt"></i>',
-                condition: li => game.user.isGM && game.scenes.get(li.data("sceneId"))._view,
-                callback: li => {
-                    let scene = game.scenes.get(li.data("sceneId"));
-                    let x = parseInt(canvas.stage.pivot.x);
-                    let y = parseInt(canvas.stage.pivot.y);
-                    let scale = canvas.stage.scale.x;
-                    scene.update({ initial: { x: x, y: y, scale: scale } }, { diff: false });
-                    ui.notifications.info("Captured canvas position as initial view.")
+            contextmenu.push(...[
+                {
+                    name: "MonksSceneNavigation.RemoveNav",
+                    icon: '<i class="fas fa-compass"></i>',
+                    condition: li => {
+                        const scene = game.scenes.get(li.data("sceneId"));
+                        return game.user.isGM && (!scene.active) && scene.navigation;
+                    },
+                    callback: li => {
+                        const scene = game.scenes.get(li.data("sceneId"));
+                        scene.update({ navigation: !scene.navigation });
+                    }
+                },
+                {
+                    name: "SCENES.ToggleNav",
+                    icon: '<i class="fas fa-compass"></i>',
+                    condition: li => {
+                        const scene = game.scenes.get(li.data("sceneId"));
+                        return game.user.isGM && (!scene.active) && !scene.navigation;
+                    },
+                    callback: li => {
+                        const scene = game.scenes.get(li.data("sceneId"));
+                        scene.update({ navigation: !scene.navigation });
+                    }
+                },
+                {
+                    name: "Set View Position",
+                    icon: '<i class="fas fa-crop-alt"></i>',
+                    condition: li => game.user.isGM && game.scenes.get(li.data("sceneId"))._view,
+                    callback: li => {
+                        let scene = game.scenes.get(li.data("sceneId"));
+                        let x = parseInt(canvas.stage.pivot.x);
+                        let y = parseInt(canvas.stage.pivot.y);
+                        let scale = canvas.stage.scale.x;
+                        scene.update({ initial: { x: x, y: y, scale: scale } }, { diff: false });
+                        ui.notifications.info("Captured canvas position as initial view.")
+                    }
                 }
-            });
+            ]);
 
             return contextmenu;
         }
@@ -435,13 +474,10 @@ Hooks.on("init", () => {
                 wrapped(...args);
         };
 
-        if (game.modules.get("lib-wrapper")?.active) {
-            libWrapper.register("monks-scene-navigation", "SceneDirectory.prototype._onClickDocumentName", clickDocumentName, "MIXED");
+        if (isV11) {
+            patchFunc("SceneDirectory.prototype._onClickEntryName", clickDocumentName, "MIXED");
         } else {
-            const oldClickSceneName = SceneDirectory.prototype._onClickDocumentName;
-            SceneDirectory.prototype._onClickDocumentName = function () {
-                return clickDocumentName.call(this, oldClickSceneName.bind(this), ...arguments);
-            }
+            patchFunc("SceneDirectory.prototype._onClickDocumentName", clickDocumentName, "MIXED");
         }
     }
 
@@ -461,6 +497,12 @@ Hooks.on("init", () => {
     }
 });
 
+Hooks.on("ready", () => {
+    if (setting("minimize-activate")) {
+        ui.nav.collapse();
+    }
+})
+
 Hooks.on("renderPermissionControl", (app, html, options) => {
     if (app.object instanceof Scene) {
         $('option[value="1"],option[value="2"]', html).remove();
@@ -476,6 +518,10 @@ Hooks.on("renderDocumentOwnershipConfig", (app, html, options) => {
 });
 
 Hooks.on("renderSceneDirectory", (app, html, options) => {
+    if (isV11) {
+        $(".document.scene h3.document-name:not(.entry-name)", html).addClass("entry-name");
+    }
+
     //add scene indicators
     if (setting("scene-indicator")) {
         $('li.scene', html).each(function () {
