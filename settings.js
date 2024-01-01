@@ -2,7 +2,18 @@ export const registerSettings = function () {
 	// Register any custom module settings here
 	let modulename = "monks-scene-navigation";
 
-	const debouncedReload = foundry.utils.debounce(function () { window.location.reload(); }, 100);
+	let backbuttonOptions = {
+		'true': game.i18n.localize("MonksSceneNavigation.backbutton.gm"),
+		'everyone': game.i18n.localize("MonksSceneNavigation.backbutton.everyone"),
+		'false': game.i18n.localize("MonksSceneNavigation.backbutton.none"),
+	};
+
+	let scenesizeOptions = {
+		'false': game.i18n.localize("MonksSceneNavigation.scene-size.normal"),
+		'true': game.i18n.localize("MonksSceneNavigation.scene-size.smaller"),
+		'side': game.i18n.localize("MonksSceneNavigation.scene-size.side"),
+		'none': game.i18n.localize("MonksSceneNavigation.scene-size.none"),
+	};
 	
 	game.settings.register(modulename, "click-to-view", {
 		name: game.i18n.localize("MonksSceneNavigation.click-to-view.name"),
@@ -36,16 +47,17 @@ export const registerSettings = function () {
 		config: true,
 		default: true,
 		type: Boolean,
-		onChange: debouncedReload
+		requiresReload: true
 	});
 	game.settings.register(modulename, "add-back-button", {
 		name: game.i18n.localize("MonksSceneNavigation.add-back-button.name"),
 		hint: game.i18n.localize("MonksSceneNavigation.add-back-button.hint"),
 		scope: "world",
 		config: true,
-		default: true,
-		type: Boolean,
-		onChange: debouncedReload
+		default: "true",
+		type: String,
+		choices: backbuttonOptions,
+		requiresReload: true
 	});
 	game.settings.register(modulename, "folder-position", {
 		name: game.i18n.localize("MonksSceneNavigation.folder-position.name"),
@@ -67,6 +79,14 @@ export const registerSettings = function () {
 		default: false,
 		type: Boolean
 	});
+	game.settings.register(modulename, "player-scene-directory", {
+		name: game.i18n.localize("MonksSceneNavigation.player-scene-directory.name"),
+        hint: game.i18n.localize("MonksSceneNavigation.player-scene-directory.hint"),
+        scope: "world",
+        config: true,
+        default: false,
+        type: Boolean
+    });
 	game.settings.register(modulename, "display-realname", {
 		name: game.i18n.localize("MonksSceneNavigation.display-realname.name"),
 		hint: game.i18n.localize("MonksSceneNavigation.display-realname.hint"),
@@ -74,7 +94,7 @@ export const registerSettings = function () {
 		config: true,
 		default: true,
 		type: Boolean,
-		onChange: debouncedReload
+		requiresReload: true
 	});
 	game.settings.register(modulename, "display-background", {
 		name: game.i18n.localize("MonksSceneNavigation.display-background.name"),
@@ -83,7 +103,7 @@ export const registerSettings = function () {
 		config: true,
 		default: true,
 		type: Boolean,
-		onChange: debouncedReload
+		requiresReload: true
 	});
 	game.settings.register(modulename, "quick-navigation", {
 		name: game.i18n.localize("MonksSceneNavigation.quick-navigation.name"),
@@ -92,7 +112,7 @@ export const registerSettings = function () {
 		config: true,
 		default: false,
 		type: Boolean,
-		onChange: debouncedReload
+		requiresReload: true
 	});
 	game.settings.register(modulename, "doubleclick-activate", {
 		name: game.i18n.localize("MonksSceneNavigation.doubleclick-activate.name"),
@@ -101,7 +121,7 @@ export const registerSettings = function () {
 		config: true,
 		default: true,
 		type: Boolean,
-		onChange: debouncedReload
+		requiresReload: true
 	});
 	game.settings.register(modulename, "minimize-activate", {
 		name: game.i18n.localize("MonksSceneNavigation.minimize-activate.name"),
@@ -124,9 +144,10 @@ export const registerSettings = function () {
 		hint: game.i18n.localize("MonksSceneNavigation.smaller-directory.hint"),
 		scope: "world",
 		config: true,
-		default: false,
-		type: Boolean,
-		onChange: debouncedReload
+		default: "false",
+		type: String,
+		choices: scenesizeOptions,
+		requiresReload: true
 	});
 
 	game.settings.register(modulename, "restore", {

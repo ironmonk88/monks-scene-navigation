@@ -1,5 +1,6 @@
 {
   "MonksSceneNavigation.RemoveNav": "Remove Navigation",
+  "MonksSceneNavigation.GoBack": "Go back to the previous scene",
 
   "MonksSceneNavigation.click-to-view.name": "Click to View",
   "MonksSceneNavigation.click-to-view.hint": "Click to view a scene rather than configure it.",
@@ -8,13 +9,13 @@
   "MonksSceneNavigation.folder-position.name": "Scene folders position",
   "MonksSceneNavigation.folder-position.hint": "Put the Scene folder at the start of the list, or at the back",
   "MonksSceneNavigation.display-background.name": "Display background",
-  "MonksSceneNavigation.display-background.hint": "Display a background behind the scene buttons",
+  "MonksSceneNavigation.display-background.hint": "Display a background behind the scene list on the scene bar",
   "MonksSceneNavigation.player-folders.name": "Show folders for players",
   "MonksSceneNavigation.player-folders.hint": "Usually the number of scenes are small for the player so it's displayed without the folder structure.  Check this if you'd like the players to see the folder structure.",
   "MonksSceneNavigation.modify-scene-bar.name": "Modify Scene Bar",
   "MonksSceneNavigation.modify-scene-bar.hint": "Modify the Scene bar with Scene Navigation changes",
   "MonksSceneNavigation.quick-navigation.name": "Quick Navigation toggle",
-  "MonksSceneNavigation.quick-navigation.hint": "Always show the compas icon so that you can click that to quickly change navigability.",
+  "MonksSceneNavigation.quick-navigation.hint": "Always show the compass icon so that you can click that to quickly change navigability.",
   "MonksSceneNavigation.doubleclick-activate.name": "Double-click Activate",
   "MonksSceneNavigation.doubleclick-activate.hint": "Double-click on a scene to activate it",
   "MonksSceneNavigation.minimize-combat.name": "Minimize during combat",
@@ -23,12 +24,23 @@
   "MonksSceneNavigation.minimize-activate.hint": "Minimize the scene navigation when you activate a scene",
   "MonksSceneNavigation.display-realname.name": "Display Real Name",
   "MonksSceneNavigation.display-realname.hint": "Display the real scene name for the GM instead of the navigation name",
-  "MonksSceneNavigation.smaller-directory.name": "Smaller Directory list",
-  "MonksSceneNavigation.smaller-directory.hint": "Display the directory scene entries in smaller format",
+  "MonksSceneNavigation.smaller-directory.name": "Scene Directory Size",
+  "MonksSceneNavigation.smaller-directory.hint": "Display the scene directory in either small size, normal size, or no image",
   "MonksSceneNavigation.directory-background.name": "Name Background",
   "MonksSceneNavigation.directory-background.hint": "Add a dark background to the scene name in the directory listing for increased readability",
   "MonksSceneNavigation.add-back-button.name": "Back Button",
   "MonksSceneNavigation.add-back-button.hint": "Add a back button to go back to the previous scene",
+  "MonksSceneNavigation.player-scene-directory.name": "Player Scene Directory",
+  "MonksSceneNavigation.player-scene-directory.hint": "Display the scene directory for players",
+
+  "MonksSceneNavigation.backbutton.gm": "GM Only",
+  "MonksSceneNavigation.backbutton.everyone": "Everyone",
+  "MonksSceneNavigation.backbutton.none": "None",
+
+  "MonksSceneNavigation.scene-size.smaller": "Smaller",
+  "MonksSceneNavigation.scene-size.normal": "Normal",
+  "MonksSceneNavigation.scene-size.side": "Side Icon",
+  "MonksSceneNavigation.scene-size.none": "No Image",
 
   "MonksSceneNavigation.folder-position.front": "Front",
   "MonksSceneNavigation.folder-position.back": "Back"

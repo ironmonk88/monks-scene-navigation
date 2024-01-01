@@ -1,3 +1,23 @@
+# Version 11.03
+
+Fixed compatibility with settings using requiresReload
+
+Added scene directory size options, to show as normal, smaller, icon to the side, or no icon at all.
+
+Added back button options to show to just the GM or to players as well.
+
+Added the option to have the players see the scene directory.
+
+Fixed issue where dragging a scene to the end of the bar, wasn't re-ordering the scene.
+
+Added the option to see the back button and real name options without using the scene bar modifications
+
+Added tooltips to the back button
+
+Fixed spelling mistake in the settings hint for the compass setting.
+
+Removed v10 support.
+
 # Version 11.02
 
 Fixing issue withh v11 support

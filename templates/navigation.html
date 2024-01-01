@@ -4,10 +4,10 @@
         {{#unless folder._id}}
         {{#if ../backButton}}
         <div class="nav-item nav-item-container flexcol">
-            <a id="nav-toggle">
+            <a id="nav-toggle" aria-label="Toggle Navigation" role="button" data-tooltip="SCENES.ToggleNav" alt="Toggle Navigation">
                 <i class="fas fa-caret-{{#if collapsed}}down{{else}}up{{/if}}"></i>
             </a>
-            <a id="nav-back">
+            <a id="nav-back" aria-label="Go back to previous Scene" role="button" data-tooltip="MonksSceneNavigation.GoBack" alt="Go back to previous Scene">
                 <i class="fas fa-arrow-left"></i>
             </a>
         </div>
