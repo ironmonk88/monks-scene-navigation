@@ -63,7 +63,7 @@ export default function initSceneNavigation() {
                 id: "navigation",
                 template: "./modules/monks-scene-navigation/templates/navigation.html",
                 popOut: false,
-                dragDrop: [{ dragSelector: ".scene,.folder", dropSelector: ".scene-list" }]
+                dragDrop: [{ dragSelector: ".scene,.folder", dropSelector: ".scene,.scene-list" }]
             });
         }
 
@@ -410,8 +410,10 @@ export default function initSceneNavigation() {
             if (!setting('modify-scene-bar')) {
                 $("#scene-list").addClass("scene-list");
                 if ((setting("add-back-button") == "everyone" || (setting("add-back-button") == "true" && game.user.isGM))) {
-                    let container = $('<div class="nav-item nav-item-container flexcol"></div>').insertAfter($('#nav-toggle'));
-                    container.append($('#nav-toggle').removeClass("nav-item")).append($('<a id="nav-back" aria-label="Go back to previous Scene" role="button" data-tooltip="MonksSceneNavigation.GoBack" alt="Go back to previous Scene"><i class="fas fa-arrow-left"></i></a>'));
+                    if ($('#nav-back').length == 0) {
+                        let container = $('<div class="nav-item nav-item-container flexcol"></div>').insertAfter($('#nav-toggle'));
+                        container.append($('#nav-toggle').removeClass("nav-item")).append($('<a id="nav-back" aria-label="Go back to previous Scene" role="button" data-tooltip="MonksSceneNavigation.GoBack" alt="Go back to previous Scene"><i class="fas fa-arrow-left"></i></a>').click(this._previousScene.bind(this)));
+                    }
                 }
             }
 

@@ -1,3 +1,9 @@
+# Version 11.04
+
+Fixed issue with reordering the scenes
+
+Fixed issue with the back button
+
 # Version 11.03
 
 Fixed compatibility with settings using requiresReload
