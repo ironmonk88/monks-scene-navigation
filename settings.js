@@ -79,6 +79,7 @@ export const registerSettings = function () {
 		default: false,
 		type: Boolean
 	});
+	/*
 	game.settings.register(modulename, "player-scene-directory", {
 		name: game.i18n.localize("MonksSceneNavigation.player-scene-directory.name"),
         hint: game.i18n.localize("MonksSceneNavigation.player-scene-directory.hint"),
@@ -86,7 +87,7 @@ export const registerSettings = function () {
         config: true,
         default: false,
         type: Boolean
-    });
+    });*/
 	game.settings.register(modulename, "display-realname", {
 		name: game.i18n.localize("MonksSceneNavigation.display-realname.name"),
 		hint: game.i18n.localize("MonksSceneNavigation.display-realname.hint"),
